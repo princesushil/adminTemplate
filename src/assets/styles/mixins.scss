@@ -1,0 +1,22 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  padding: $spacing-md;
+}
+
+@mixin responsive($breakpoint) {
+  @if $breakpoint == sm {
+    @media (max-width: 576px) { @content; }
+  } @else if $breakpoint == md {
+    @media (max-width: 768px) { @content; }
+  } @else if $breakpoint == lg {
+    @media (max-width: 992px) { @content; }
+  }
+}

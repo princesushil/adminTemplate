@@ -1,0 +1,149 @@
+// _form.scss
+$form-border-color: #ced4da;
+$hover-border-color: #b05db2;
+
+.section {
+    margin-top: 60px;
+}
+
+// Existing styles...
+
+// ng-select styling
+ng-select {
+    display: block;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 5px;
+    padding: 3px 4px; 
+
+    // placeholder start 
+    .ng-select-container {
+        display: flex;
+        align-items: center;
+        height: 40px; 
+        font-size: 0.95rem; 
+    }
+
+    //plaehoder end
+
+    >.ng-select-container {
+        border: 1px solid $form-border-color;
+        border-radius: 5px;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+        &:hover {
+            border-color: $hover-border-color;
+        }
+    }
+
+    &.is-invalid>.ng-select-container {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+        border-color: $hover-border-color !important;
+        box-shadow: none !important;
+    }
+
+    &.ng-select-opened>.ng-select-container {
+        border-color: $hover-border-color !important;
+    }
+
+    .ng-dropdown-panel {
+        .ng-option {
+            &.ng-option-selected {
+                background-color: $hover-border-color !important;
+                color: #fff !important;
+            }
+
+            &:hover {
+                background-color: #b98cd1 !important;
+                color: #fff !important;
+            }
+        }
+    }
+
+    &:disabled>.ng-select-container {
+        background-color: #f0f2f5;
+        border-color: $form-border-color;
+        color: #6c757d;
+    }
+
+}
+
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+select,
+.form-control {
+    font-size: 0.95rem;
+    height: 40px;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #7c5187;
+    border: 1px solid $form-border-color;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+        border-color: $hover-border-color;
+    }
+
+    &:focus,
+    &:focus-visible {
+        border-color: $hover-border-color;
+        box-shadow: none; // <-- this prevents blue glow
+    }
+
+    &:disabled {
+        background-color: #f0f2f5;
+        border-color: $form-border-color;
+        color: #6c757d;
+    }
+}
+
+
+
+
+
+// Radio and Checkbox
+input[type="radio"],
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #0d6efd;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+
+    }
+}
+
+// Labels
+label.form-label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: #343a40;
+}
+
+// Buttons
+button.btn {
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    transition: background-color 0.25s ease;
+}
+
+// Form section container
+.section {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}

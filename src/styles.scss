@@ -1,1 +1,70 @@
-/* You can add global styles to this file, and also import other style files */
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@use './assets/styles/alert.scss';
+@use './assets/styles/button';
+@use './assets/styles/card';
+@use './assets/styles/variables';
+@use './assets/styles/mixins';
+@use './assets/styles/navbar';
+
+@use './assets/styles/form';
+
+@use './assets/styles/modal';
+@use './assets/styles/table';
+
+@use './assets/styles/loader';
+
+
+html {
+  @include mat.theme((color: (primary: mat.$rose-F,
+        tertiary: mat.$red-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+body {
+  color-scheme: light;
+  margin: 0;
+}
+
+html,
+body {
+  margin: 0;
+   font-family: 'Outfit', sans-serif;
+  height: 100%;
+}
+
+button, li {
+  &:hover {
+    cursor: pointer !important;
+  }
+}
+
+
+.container-fluid {
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+
+}
+
+::ng-deep .custom-ng-select.ng-invalid.ng-dirty .ng-select-container {
+  border: 1px solid #dc3545 !important; 
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25); 
+}
+.register-wrapper {
+  height: 100vh;
+  background: #f8f9fa; // light gray background
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
+}

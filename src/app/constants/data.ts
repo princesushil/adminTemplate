@@ -1,0 +1,1 @@
+ export const hiddenRoutes = ['/login', '/register','/page/login', '/page/register','/page/forget-password','/forget-password'];

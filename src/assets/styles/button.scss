@@ -1,0 +1,14 @@
+ 
+.btn-primary{
+  background: linear-gradient(135deg, #a18cd1 0%, #771c36 100%);
+   border: none;
+}
+.btn-secondary{ 
+  background: linear-gradient(45deg, #ff6b6b, #ff4757);
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background: linear-gradient(45deg, #ff4757, #ff6b6b);
+  }
+}
