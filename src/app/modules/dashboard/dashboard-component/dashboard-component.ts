@@ -8,8 +8,7 @@ import {
   ApexNonAxisChartSeries,
   NgApexchartsModule
 } from 'ng-apexcharts';
-import { DashboardCard } from '../../../models/dashboard.model';
-import { BranchMaster } from '../../master/branch-master/branch-master';
+import { DashboardCard } from '../../../models/dashboard.model'; 
 export type ChartOptionsLine = {
   series: ApexAxisChartSeries;
   chart: ApexChart;

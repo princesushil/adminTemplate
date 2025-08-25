@@ -1,74 +1,49 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router'; 
-import { Subject, takeUntil } from 'rxjs'; 
-import { HttpClientModule } from '@angular/common/http'; 
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../cores/services/authService';
 import { RegistrationService } from '../../../../services/registration-service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.html',
-  styleUrl: './login.scss', 
+  styleUrl: './login.scss',
 })
 export class Login implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
   ngUnsubscribe = new Subject();
   email: string | null = '';
-  otp: string | null = ''; 
-  spinner: boolean = false;
+  otp: string | null = '';
   user: any;
   loginData: any;
 
-  constructor( 
+  constructor(
     private formBuilder: FormBuilder,
-    private toastr: ToastrService, 
+    private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
     private auth: AuthService,
-    private registrationService:RegistrationService
-  ) {}
+    private registrationService: RegistrationService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      emailId: ['testuser@acplcargo.com', [Validators.required, Validators.email]],
-      password: ['password', Validators.required]
+      username: ['sushil.suryawanshi@acplcargo.com', [Validators.required, Validators.email]],
+      password: ['12345678', Validators.required]
     });
 
     if (this.auth.isUserLoggedIn()) {
       this.router.navigate(['/home']);
     }
 
-    this.route.queryParams.subscribe(params => {
-      this.email = params['q'];
-      this.otp = params['otp'];
-    
-
-    //   if (this.email) {
-    //     this.registrationService.verifyEmailOtp(this.email, this.otp, true).pipe(takeUntil(this.ngUnsubscribe)).subscribe({
-    //       next: (response: any) => {
-    //          this.toastr.success(response.value?.message, 'Success'); 
-    //         this.router.navigate(['/dashboard']);
-    //         this.spinner = false;
-    //       },
-    //       error: (err:any) => {
-    //              this.toastr.success('error verifying email:', 'Success');  
-    //         this.spinner = false; 
-    //       }
-    //     });
-    //   }
-     });
-  } 
+  }
 
   reset() {
     this.loginForm.reset();
@@ -79,35 +54,32 @@ export class Login implements OnInit {
   }
 
   onSubmit(): void {
-    this.spinner = true;
+    this.spinner.show()
     this.submitted = true;
     this.loginForm.markAllAsTouched();
 
     if (this.loginForm.invalid) {
-      this.spinner = false;
+      this.spinner.hide();
       return;
     }
 
     this.loginData = this.loginForm.value;
-    this.loginData.isExternalUser = true;
-   this.toastr.success('Logged In successfully!', 'Success');
-    this.router.navigate(['/dashboard']);
     this.registrationService.login(this.loginData).subscribe(
       (response: any) => {
         if (response) {
-          this.spinner = false;
+          this.spinner.hide()
           this.submitted = false;
           if (response.token) {
-            localStorage.setItem('newsLoginToken', response.token);
+            localStorage.setItem('p-token', response.token);
+            const id = this.auth.currentUser?.id
+            this.router.navigate(['/dashboard/dashboard']);
+            this.auth.currentUserSubject?.next(true);
           }
-          this.toastr.success('Logged In successfully!', 'Success');
-          this.auth.currentUserSubject?.next(true);
-          this.router.navigate(['/home']);
         }
       },
       (error: any) => {
         this.toastr.error('Invalid username or password!', 'Failed');
-        this.spinner = false;
+        this.spinner.hide()
       }
     );
   }

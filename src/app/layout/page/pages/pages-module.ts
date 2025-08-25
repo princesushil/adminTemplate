@@ -13,11 +13,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr'; 
 import { ForgetPassword } from './forget-password/forget-password';
 import { ResetPassword } from './reset-password/reset-password';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { UnautherizedAccess } from './unautherized-access/unautherized-access';
 
 
 @NgModule({
   declarations: [
-    Login, Register, ForgetPassword, ResetPassword
+    Login, Register, ForgetPassword, ResetPassword,UnautherizedAccess
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import { ResetPassword } from './reset-password/reset-password';
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
+    NgxSpinnerModule,
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,

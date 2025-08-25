@@ -7,10 +7,46 @@
 @use 'section';
 @use 'form';
 @use 'button';
+@use 'table';
+
 
 // Default styles
+html,
 body {
-  font-family: 'Roboto', sans-serif; 
   margin: 0;
-  padding: 0;
+   font-family: 'Outfit', sans-serif;
+   height: 100%;
+   color:variables.$text-color;
+   background-color: variables.$background-color;
+}
+a{
+  list-style: none; 
+  text-decoration: none;
+}
+
+button, li {
+  &:hover {
+    cursor: pointer !important;
+  }
+}  
+.container-fluid {
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+
+}
+
+::ng-deep .custom-ng-select.ng-invalid.ng-dirty .ng-select-container {
+  border: 1px solid #dc3545 !important; 
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25); 
+}
+.register-wrapper {
+  height: 100vh;
+  background: #f8f9fa; // light gray background
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 400px;
 }

@@ -11,7 +11,7 @@ export class AuthService {
   constructor( private toastr: ToastrService,public router: Router) { }
 
   isUserLoggedIn() {  
-        let token = localStorage.getItem('a-token');
+        let token = localStorage.getItem('p-token');
         let isExpired = new JwtHelperService().isTokenExpired(token);
         if (!token && isExpired) {
           return false;
@@ -21,13 +21,13 @@ export class AuthService {
     } 
   
   get currentUser() { 
-      let token = localStorage.getItem('a-token');
+      let token = localStorage.getItem('p-token');
       return new JwtHelperService().decodeToken(token ?? '');  
   }  
   
   logout() { 
-    localStorage.removeItem('a-token'); 
-    this.router.navigate(['/dashboard'])  
+    localStorage.removeItem('p-token'); 
+    this.router.navigate(['/dashboard/dashboard'])  
   }
   redirectToLogin() {
     this.router.navigate(['/login'])
