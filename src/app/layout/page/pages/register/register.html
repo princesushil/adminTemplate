@@ -1,70 +1,102 @@
-<div class="container-fluid section vh-100 d-flex align-items-center justify-content-center">
-    <div class="row w-100 justify-content-center">
-        <div class="col-md-4 col-sm-10 p-4 shadow-lg bg-white rounded">
-            <h2 class="text-center mb-4">Register</h2>
-            <form [formGroup]="registerForm">
-                <div class="form-group mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="firstName" class="form-control" id="firstName" formControlName="firstName"
-                        placeholder="Enter your first Name"
-                        [ngClass]="{'is-invalid': submitted && f['firstName'].errors}">
-                    <div *ngIf="submitted && f['firstName'].errors" class="invalid-feedback">
-                        <div *ngIf="f['firstName'].errors['required']">first Name is required.</div>
-                        <div *ngIf="f['firstName'].errors['firstName']">first Name is invalid.</div>
-                    </div>
-                </div>
-                 <div class="form-group mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="lastName" class="form-control" id="lastName" formControlName="lastName"
-                        placeholder="Enter your last Name"
-                        [ngClass]="{'is-invalid': submitted && f['lastName'].errors}">
-                    <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
-                        <div *ngIf="f['lastName'].errors['required']">last Name is required.</div>
-                        <div *ngIf="f['lastName'].errors['lastName']">last Name is invalid.</div>
-                    </div>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="emailId" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="emailId" formControlName="emailId"
-                        placeholder="Enter your email" [ngClass]="{'is-invalid': submitted && f['emailId'].errors}">
-                    <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
-                        <div *ngIf="f['emailId'].errors['required']">Email is required.</div>
-                        <div *ngIf="f['emailId'].errors['emailId']">Email is invalid.</div>
-                    </div>
-                </div>
+<div class="container-fluid vh-100 d-flex align-items-center justify-content-center">
+  <div class="row w-100 justify-content-center">
+    <div class="col-md-4 col-sm-10 p-4 shadow-lg">
+      <h2 class="text-center mb-4">Register</h2>
 
-                <div class="form-group mb-4">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" formControlName="password"
-                        placeholder="Enter your password" [ngClass]="{'is-invalid': submitted && f['password'].errors}">
-                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                        <div *ngIf="f['password'].errors['required']">Password is required.</div>
-                    </div>
-                </div>
-                <div class="form-group mb-4">
-                    <label for="password" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="password" formControlName="password"
-                        placeholder="Enter your password again"
-                        [ngClass]="{'is-invalid': submitted && f['password'].errors}">
-                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-                        <div *ngIf="f['password'].errors['required']">Password is required.</div>
-                    </div>
-                </div>
+      <form [formGroup]="registerForm">
 
-                <div class="mb-3">
-                    <button type="button" class="btn btn-primary w-100 text-white"
-                        (click)="onSubmit()">Register</button>
-                </div>
-                <div class="mb-3">
-                    <button type="button" class="btn btn-secondary w-100 bg-info text-white"
-                        (click)="reset()">Cancel</button>
-                </div>
-
-                <div class="text-center mt-3">
-                    <p>Already have an account?</p>
-                    <a href="page/login" class="text-primary me-2">Login here</a>
-                </div>
-            </form>
+        <!-- First Name -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName"
+              placeholder="Enter your first name" [ngClass]="{ 'is-invalid': submitted && f['firstName'].errors }">
+            @if (submitted && f['firstName'].errors) {
+              <div class="invalid-feedback">
+                @if (f['firstName'].errors['required']) { First Name is required. }
+                @if (f['firstName'].errors['pattern']) { First Name is invalid. }
+              </div>
+            }
+          </div>
         </div>
+
+        <!-- Last Name -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName"
+              placeholder="Enter your last name" [ngClass]="{ 'is-invalid': submitted && f['lastName'].errors }">
+            @if (submitted && f['lastName'].errors) {
+              <div class="invalid-feedback">
+                @if (f['lastName'].errors['required']) { Last Name is required. }
+                @if (f['lastName'].errors['pattern']) { Last Name is invalid. }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="userName" class="form-label">Email</label>
+            <input type="email" class="form-control" id="userName" formControlName="userName"
+              placeholder="Enter your email" [ngClass]="{ 'is-invalid': submitted && f['userName'].errors }">
+            @if (submitted && f['userName'].errors) {
+              <div class="invalid-feedback">
+                @if (f['userName'].errors['required']) { Email is required. }
+                @if (f['userName'].errors['email']) { Enter a valid email. }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" formControlName="password"
+              placeholder="Enter your password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+            @if (submitted && f['password'].errors) {
+              <div class="invalid-feedback">
+                @if (f['password'].errors['required']) { Password is required. }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword"
+              placeholder="Enter your password again" [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }">
+            @if (submitted && f['confirmPassword'].errors) {
+              <div class="invalid-feedback">
+                @if (f['confirmPassword'].errors?.['required']) { Confirm Password is required. }
+                @if (f['confirmPassword'].errors?.['passwordMismatch']) { Passwords do not match. }
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row mb-3">
+          <div class="col-12">
+            <button type="button" class="btn btn-primary w-100 text-white" (click)="onSubmit()">Register</button>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+            <button type="button" class="btn btn-secondary w-100 bg-info text-white" (click)="reset()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Login Link -->
+        <div class="text-center mt-3">
+          <p>Already have an account?</p>
+          <a routerLink="/page/login" class="text-primary me-2">Login here</a>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

@@ -10,18 +10,18 @@
     </button>
 
     <!-- Right Side Icons -->
-    <div class="d-flex align-items-center gap-3 me-2">
+    <div class="d-flex  gap-3 me-2">
 
         <!-- Notification Bell -->
         <div class="position-relative" (click)="toggleNotifications()" style="cursor: pointer;">
             <i class="material-icons mt-1">notifications</i>
-            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                *ngIf="getUnreadCount() > 0">
+            @if(getUnreadCount() > 0){<span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
                 {{ getUnreadCount() }}
             </span>
+            }
 
             <!-- Notification Dropdown -->
-            <div class="notification-dropdown mt-2 shadow bg-white rounded" *ngIf="showNotifications"
+            @if(showNotifications){ <div class="notification-dropdown mt-2 shadow bg-white rounded"
                 style="position: absolute; right: 0; top: 40px; width: 250px; z-index: 999;">
                 <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
                     <span>Notifications</span>
@@ -43,9 +43,10 @@
                             <div class="text-muted small">{{ notification.time | date: 'short' }}</div>
                         </div>
                     </li>
-                    <li *ngIf="notifications.length === 0" class="text-muted text-center py-2">No notifications</li>
+                    @if(notifications.length === 0){<li class="text-muted text-center py-2">No notifications</li>}
                 </ul>
             </div>
+            }
         </div>
 
         <!-- User Profile -->
@@ -75,68 +76,81 @@
 
 
 <ul class="navbar-menu d-none d-md-flex align-items-center w-100">
-    <ng-container *ngFor="let item of menuItems">
-        <li class="navbar-item" [ngClass]="{ 'has-children': item.children }">
-            <a *ngIf="!item.children" [routerLink]="item.route">
-                <i class="material-icons mt-1">{{ item.icon }}</i> {{ item.label }}
-            </a>
-            <div *ngIf="item.children" class="dropdown">
-                <span class="dropdown-label">
-                    <i class="material-icons ">{{ item.icon }}</i>
-                    <span class="label-text ms-1">{{ item.label }}</span>
-                    <i class="material-icons toggle-icon ms-auto">expand_more</i>
-                </span>
 
-                <ul class="submenu">
-                    <ng-container *ngFor="let child of item.children">
-                        <li class="submenu-item" [ngClass]="{ 'has-children': child.children }">
-                            <a *ngIf="!child.children" [routerLink]="child.route">
-                                <i class="material-icons mt-1">{{ child.icon }}</i> {{ child.label }}
-                            </a>
-                            <div *ngIf="child.children" class="dropdown">
-                                <span class="dropdown-label">
-                                    <i class="material-icons mt-1">{{ child.icon }}</i>
-                                    <span class="label-text ms-1">{{ child.label }}</span>
-                                    <i class="material-icons toggle-icon ms-auto">chevron_right</i>
-                                </span>
+    @for (item of menuItems; track item.label) {
+    <li class="navbar-item" [ngClass]="{ 'has-children': item.children }">
 
-                                <ul class="submenu">
-                                    <ng-container *ngFor="let grandChild of child.children">
-                                        <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.children }">
-                                            <a *ngIf="!grandChild.children" [routerLink]="grandChild.route">
-                                                <i class="material-icons mt-1">{{ grandChild.icon }}</i> {{
-                                                grandChild.label }}
+        @if (!item.children) {
+        <a [routerLink]="item.route">
+            <i class="material-icons mt-1">{{ item.icon }}</i> {{ item.label }}
+        </a>
+        } @else {
+        <div class="dropdown">
+            <span class="dropdown-label">
+                <i class="material-icons">{{ item.icon }}</i>
+                <span class="label-text ms-1">{{ item.label }}</span>
+                <i class="material-icons toggle-icon ms-auto">expand_more</i>
+            </span>
+
+            <ul class="submenu">
+                @for (child of item.children; track child.label) {
+                <li class="submenu-item" [ngClass]="{ 'has-children': child.children }">
+
+                    @if (!child.children) {
+                    <a [routerLink]="child.route">
+                        <i class="material-icons mt-1">{{ child.icon }}</i> {{ child.label }}
+                    </a>
+                    } @else {
+                    <div class="dropdown">
+                        <span class="dropdown-label">
+                            <i class="material-icons mt-1">{{ child.icon }}</i>
+                            <span class="label-text ms-1">{{ child.label }}</span>
+                            <i class="material-icons toggle-icon ms-auto">chevron_right</i>
+                        </span>
+
+                        <ul class="submenu">
+                            @for (grandChild of child.children; track grandChild.label) {
+                            <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.children }">
+
+                                @if (!grandChild.children) {
+                                <a [routerLink]="grandChild.route">
+                                    <i class="material-icons mt-1">{{ grandChild.icon }}</i> {{ grandChild.label }}
+                                </a>
+                                } @else {
+                                <div class="dropdown">
+                                    <span class="dropdown-label">
+                                        <i class="material-icons mt-1">{{ grandChild.icon }}</i>
+                                        {{ grandChild.label }}
+                                        <i class="material-icons toggle-icon ms-1">chevron_right</i>
+                                    </span>
+
+                                    <ul class="submenu">
+                                        @for (greatGrandChild of grandChild.children; track greatGrandChild.label) {
+                                        <li class="submenu-item">
+                                            <a [routerLink]="greatGrandChild.route">
+                                                <i class="material-icons mt-1">{{ greatGrandChild.icon }}</i> {{
+                                                greatGrandChild.label }}
                                             </a>
-                                            <div *ngIf="grandChild.children" class="dropdown">
-                                                <span class="dropdown-label">
-                                                    <i class="material-icons mt-1">{{ grandChild.icon }}</i> {{
-                                                    grandChild.label }}
-                                                    <i class="material-icons toggle-icon ms-1">chevron_right</i>
-                                                </span>
-
-                                                <ul class="submenu">
-                                                    <li class="submenu-item"
-                                                        *ngFor="let greatGrandChild of grandChild.children">
-                                                        <a [routerLink]="greatGrandChild.route">
-                                                            <i class="material-icons mt-1">{{ greatGrandChild.icon
-                                                                }}</i> {{ greatGrandChild.label }}
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
                                         </li>
-                                    </ng-container>
-                                </ul>
-                            </div>
-                        </li>
-                    </ng-container>
-                </ul>
-            </div>
-        </li>
-    </ng-container>
+                                        }
+                                    </ul>
+                                </div>
+                                }
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                    }
+                </li>
+                }
+            </ul>
+        </div>
+        }
 
+    </li>
+    }
 
-    <!-- Spacer to push right section to end -->
+    <!-- Spacer to push right section to the end -->
     <li class="flex-grow-1"></li>
 
     <!-- Right-side controls -->
@@ -145,12 +159,15 @@
         <!-- Notification -->
         <div class="notification-wrapper position-relative">
             <i class="material-icons cursor-pointer" (click)="toggleNotifications()">notifications</i>
-            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                *ngIf="getUnreadCount() > 0">
+            @if (getUnreadCount() > 0) {
+            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
                 {{ getUnreadCount() }}
             </span>
+            }
+
             <!-- Notification Dropdown -->
-            <div class="notification-dropdown" *ngIf="showNotifications">
+            @if (showNotifications) {
+            <div class="notification-dropdown">
                 <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2">
                     <span>Notifications</span>
                     <div class="actions">
@@ -160,8 +177,8 @@
                 </div>
 
                 <ul class="notification-list">
-                    <li *ngFor="let notification of notifications" [ngClass]="{ unread: !notification.read }"
-                        (click)="handleNotificationClick(notification)">
+                    @for (notification of notifications; track notification.message) {
+                    <li [ngClass]="{ unread: !notification.read }" (click)="handleNotificationClick(notification)">
                         <i class="material-icons me-2 text-primary">
                             {{ notification.read ? 'notifications_none' : 'notifications' }}
                         </i>
@@ -170,31 +187,41 @@
                             <div class="timestamp">{{ notification.time | date: 'short' }}</div>
                         </div>
                     </li>
+                    }
 
-                    <li *ngIf="notifications.length === 0" class="text-muted text-center p-2">
+                    @if (notifications.length === 0) {
+                    <li class="text-muted text-center p-2">
                         No notifications
                     </li>
+                    }
                 </ul>
             </div>
+            }
 
         </div>
 
         <!-- User Profile Dropdown -->
         <div class="dropdown user-profile">
-            <span class="  d-flex align-items-center" type="" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-user"></i>
             </span>
             <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li><a class="dropdown-item" routerLink="/profile"><i class="material-icons me-2">account_circle</i>
-                        Profile</a></li>
-                <li><a class="dropdown-item" routerLink="/settings"><i class="material-icons me-2">settings</i>
-                        Settings</a></li>
+                <li>
+                    <a class="dropdown-item" routerLink="/profile">
+                        <i class="material-icons me-2">account_circle</i> Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="/settings">
+                        <i class="material-icons me-2">settings</i> Settings
+                    </a>
+                </li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
                 <li>
                     <button class="dropdown-item text-danger" (click)="logout()">
-                        <i class="material-icons me-2">logout</i> Logout
+                        <i class="material-icons text-danger me-2">logout</i> Logout
                     </button>
                 </li>
             </ul>
@@ -202,6 +229,7 @@
 
     </li>
 </ul>
+
 
 <!-- MOBILE SIDEBAR -->
 <div class="offcanvas offcanvas-start d-md-none text-dark" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel"
@@ -227,20 +255,23 @@
         <div class="d-flex justify-content-between align-items-center px-2 py-1" (click)="toggleSubmenu(item)">
             <div>
                 <i class="material-icons me-2">{{ item.icon }}</i>
-                <a *ngIf="!item.children" [routerLink]="item.route" class="text-decoration-none">
+                @if(!item.children){<a [routerLink]="item.route" class="text-decoration-none">
                     {{ item.label }}
                 </a>
-                <span *ngIf="item.children" class="text-dark">{{ item.label }}</span>
+                }
+                @if(item.children){<span class="text-dark">{{ item.label }}</span>}
             </div>
-            <div *ngIf="item.children">
+            @if(item.children){<div>
                 <i class="fa" [ngClass]="isSubmenuOpen[item.label] ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
             </div>
+            }
         </div>
-        <ul *ngIf="item.children && isSubmenuOpen[item.label]" class="list-unstyled ps-4">
+        @if(item.children && isSubmenuOpen[item.label]){<ul class="list-unstyled ps-4">
             <ng-container *ngFor="let child of item.children">
                 <ng-template [ngTemplateOutlet]="renderMenu"
                     [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
             </ng-container>
         </ul>
+        }
     </li>
 </ng-template>

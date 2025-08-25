@@ -1,6 +1,6 @@
- 
+ @use 'variables';
 .btn-primary{
-  background: linear-gradient(135deg, #a18cd1 0%, #771c36 100%);
+  background:  variables.$primary-btn-color;
    border: none;
 }
 .btn-secondary{ 

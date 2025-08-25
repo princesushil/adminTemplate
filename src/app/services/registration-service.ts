@@ -9,9 +9,9 @@ import { environment } from '../../environment/environment';
 export class RegistrationService {
   constructor(private _httpClient: HttpClient) { }
   login(userData: any): Observable<any> {
-    return this._httpClient.post<any>(`${environment.baseUrl}Auth/login`, userData);
+    return this._httpClient.post<any>(`${environment.identityUrl}Auth/login`, userData);
   }
   register(userData: any): Observable<any> {
-    return this._httpClient.post<any>(`${environment.baseUrl}Auth/login`, userData);
+    return this._httpClient.post<any>(`${environment.identityUrl}UserRegistration/register`, userData);
   }
 }

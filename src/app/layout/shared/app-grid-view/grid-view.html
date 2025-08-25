@@ -1,55 +1,61 @@
-<div class="d-flex justify-content-end mb-2 sticky-action-col">
-  <input type="text" class="form-control form-control-sm w-auto" placeholder="Search..." [(ngModel)]="searchTerm"
-    (input)="onSearchChange()" />
+<div class="table-responsive">
+  <!-- <mat-form-field appearance="outline" class="search-field">
+    <input matInput [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Search">
+  </mat-form-field> -->
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <!-- Actions column -->
+          <th class="sticky-action-col" style="width: 120px;">Actions</th>
+
+          <!-- Dynamic columns -->
+          <th *ngFor="let column of gridViewConfig?.columnConfig"
+            [style.width.%]="100 / (gridViewConfig?.columnConfig?.length + 1)">
+            {{ column.fieldName }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let row of gridViewConfig?.gridViewData">
+          <!-- Actions -->
+          <td class="sticky-action-col">
+            <button class="btn btn-sm btn-primary text-black me-2" (click)="gridViewEditEvent(row, $event)"><i class="fa fa-edit"></i></button>
+
+          </td>
+
+          <!-- Dynamic cells -->
+          <td *ngFor="let column of gridViewConfig?.columnConfig">
+            {{ row[column.fieldProperty] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="d-flex justify-content-between">
+    <div>
+      <div>Total Records:{{ this.gridViewConfig.totalRecordCount}}</div>
+    </div>
+    <div>
+      @if(gridViewConfig?.columnConfig?.length){<div class="pagination-controls">
+        <button class="btn btn-dark" (click)="goToPreviousGroup()" [disabled]="paginationGroupStart === 0">«</button>
+        <button *ngFor="let page of pageNumbers.slice(paginationGroupStart, paginationGroupStart + pagesPerGroup)"
+          [class.btn-outline-primary]="page !== currentPage" [class.btn-primary]="page === currentPage"
+          (click)="serverSidePaginationCallBack(page)">
+          {{ page + 1 }}
+        </button>
+        <button class="btn btn-dark" (click)="goToNextGroup()"
+          [disabled]="paginationGroupStart + pagesPerGroup >= pageCount">»</button>
+      </div>
+    }
+    </div>
+  </div>
+
+
 </div>
-<div class="table-responsive" style="overflow-x: auto;">
 
-
-  <table class="table text-white" style="min-width: 800px;">
-    <thead>
-      <tr>
-        <th class="sticky-action-col">Action</th>
-        <th *ngFor="let col of columns">{{ col.label }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of pagedData">
-        <td class="sticky-action-col">
-          <span class="sticky-btn" (click)="onEdit(row)" title="Edit">
-            <i class="fas fa-edit"></i>
-          </span>
-        </td>
-        <td *ngFor="let col of columns">{{ row[col.key] }}</td>
-      </tr>
-    </tbody>
-
-  </table>
-</div>
-
-
-<div class="pagination-controls mt-3 d-flex align-items-center justify-content-end gap-2">
-  <button class="btn btn-sm btn-dark" (click)="goToPreviousGroup()" [disabled]="paginationGroupStart === 0">
-    &laquo;
-  </button>
-
-  <button class="btn btn-sm btn-dark" (click)="previousPage()" [disabled]="currentPage === 0">
-    Previous
-  </button>
-
-  <ng-container *ngFor="let page of pageNumbers.slice(paginationGroupStart, paginationGroupStart + pagesPerGroup)">
-    <button class="btn btn-sm"
-      [ngClass]="{ 'btn-primary': currentPage === page, 'btn-outline-primary': currentPage !== page }"
-      (click)="goToPage(page)">
-      {{ page + 1 }}
-    </button>
-  </ng-container>
-
-  <button class="btn btn-sm btn-dark" (click)="nextPage()" [disabled]="(currentPage + 1) >= pageCount">
-    Next
-  </button>
-
-  <button class="btn btn-sm btn-dark" (click)="goToNextGroup()"
-    [disabled]="paginationGroupStart + pagesPerGroup >= pageCount">
-    &raquo;
-  </button>
-</div>
+<ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+</ngx-spinner>

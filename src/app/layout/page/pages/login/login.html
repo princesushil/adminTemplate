@@ -2,39 +2,60 @@
   <div class="row w-100 justify-content-center">
     <div class="col-md-4 col-sm-10 p-4 shadow-lg bg-white rounded">
       <h2 class="text-center mb-4">Login</h2>
+
       <form [formGroup]="loginForm">
+        <!-- Email -->
         <div class="form-group mb-3">
-          <label for="emailId" class="form-label">Email</label>
-          <input type="email" class="form-control" id="emailId" formControlName="emailId"
-            placeholder="Enter your email" [ngClass]="{'is-invalid': submitted && f['emailId'].errors}">
-          <div *ngIf="submitted && f['emailId'].errors" class="invalid-feedback">
-            <div *ngIf="f['emailId'].errors['required']">Email is required.</div>
-            <div *ngIf="f['emailId'].errors['emailId']">Email is invalid.</div>
-          </div>
+          <label for="username" class="form-label">Email</label>
+          <input type="email" class="form-control" id="username" formControlName="username" placeholder="Enter your email"
+         [ngClass]="{ 'is-invalid': submitted && f['username'].errors }" />
+
+          @if (f['username'].errors) {
+          @if (f['username'].errors['required']) {
+          <span class="text-danger">Email is required.</span>
+          }
+          @if (f['username'].errors['username']) {
+          Invalid email format.
+          }
+          }
+
+
+
         </div>
 
+        <!-- Password -->
         <div class="form-group mb-4">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" formControlName="password"
-            placeholder="Enter your password" [ngClass]="{'is-invalid': submitted && f['password'].errors}">
-          <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-            <div *ngIf="f['password'].errors['required']">Password is required.</div>
-          </div>
+            placeholder="Enter your password"   [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" />
+
+          @if (f['password'].errors) {
+          @if (f['password'].errors['required']) {
+          <span class="text-danger">password is required.</span>
+          }
+          }
         </div>
 
+        <!-- Buttons -->
         <div class="mb-3">
           <button type="button" class="btn btn-primary w-100 text-white" (click)="onSubmit()">Login</button>
         </div>
+
         <div class="mb-3">
           <button type="button" class="btn btn-secondary w-100 bg-info text-white" (click)="reset()">Cancel</button>
         </div>
 
+        <!-- Links -->
         <div class="text-center mt-3">
           <p>Don't have an account?</p>
           <a href="page/forget-password" class="text-primary me-2">Forget password?</a>
-          <a href="page/register">Register?</a>
+          <a href="page/register">Register?</a> 
         </div>
       </form>
     </div>
   </div>
+
+  <!-- Spinner -->
+  <ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+  </ngx-spinner>
 </div>

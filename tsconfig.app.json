@@ -5,7 +5,10 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [],
-    
+  },
+  "angularCompilerOptions": {
+    "enableNgForOfControlFlow": true,
+    "enableNgIfSyntacticSugar": true
   },
   "include": [
     "src/**/*.ts"

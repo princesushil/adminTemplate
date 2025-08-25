@@ -7,78 +7,102 @@
                     <!-- Branch Name -->
                     <div class="col-md-3 mb-3">
                         <label for="branchName" class="form-label">Branch Name</label>
-                        <input type="text" id="branchName" class="form-control" formControlName="branchName"
-                            [ngClass]="{ 'is-invalid': branchForm.controls['branchName'].invalid && isSubmitted }"
+                        <input type="text" id="branchName" autocomplete="off" class="form-control"
+                            formControlName="branchName"
+                            [ngClass]="{ 'is-invalid': branchForm.get('branchName')?.invalid && isSubmitted }"
                             placeholder="Enter Branch Name" />
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['branchName'].errors?.['required'] && isSubmitted">
-                            Branch Name is required.
-                        </div>
+                        @if (branchForm.get('branchName')?.errors?.['required'] && isSubmitted) {
+                        <div class="invalid-feedback">Branch Name is required.</div>
+                        }
                     </div>
 
                     <!-- Branch Code -->
                     <div class="col-md-3 mb-3">
                         <label for="branchCode" class="form-label">Branch Code</label>
-                        <input type="text" id="branchCode" class="form-control" formControlName="branchCode"
-                            [ngClass]="{ 'is-invalid': branchForm.controls['branchCode'].invalid && isSubmitted }"
+                        <input type="text" id="branchCode" autocomplete="off" class="form-control"
+                            formControlName="branchCode"
+                            [ngClass]="{ 'is-invalid': branchForm.get('branchCode')?.invalid && isSubmitted }"
                             placeholder="Enter Branch Code" />
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['branchCode'].errors?.['required'] && isSubmitted">
-                            Branch Code is required.
-                        </div>
+                        @if (branchForm.get('branchCode')?.errors?.['required'] && isSubmitted) {
+                        <div class="invalid-feedback">Branch Code is required.</div>
+                        }
                     </div>
 
                     <!-- State -->
                     <div class="col-md-3 mb-3">
                         <label for="state" class="form-label">State</label>
-
                         <ng-select [items]="states" bindLabel="label" bindValue="value" placeholder="Select State"
                             formControlName="state" class="ng-select"
-                            [ngClass]="{ 'is-invalid': branchForm.controls['state'].invalid && isSubmitted }">
-                        </ng-select>
-
-
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['state'].errors?.['required'] && isSubmitted">
-                            State is required.
-                        </div>
+                            [ngClass]="{ 'is-invalid': branchForm.get('state')?.invalid && isSubmitted }"></ng-select>
+                        @if (branchForm.get('state')?.errors?.['required'] && isSubmitted) {
+                        <div class="invalid-feedback">State is required.</div>
+                        }
                     </div>
-
 
                     <!-- Email -->
                     <div class="col-md-3 mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" class="form-control" formControlName="email"
-                            [ngClass]="{ 'is-invalid': branchForm.controls['email'].invalid && isSubmitted }"
+                        <input type="email" id="email" autocomplete="off" class="form-control" formControlName="email"
+                            [ngClass]="{ 'is-invalid': branchForm.get('email')?.invalid && isSubmitted }"
                             placeholder="Enter Email" />
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['email'].errors?.['required'] && isSubmitted">
-                            Email is required.
-                        </div>
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['email'].errors?.['email'] && isSubmitted">
-                            Enter a valid email.
-                        </div>
+                        @if (branchForm.get('email')?.errors?.['required'] && isSubmitted) {
+                        <div class="invalid-feedback">Email is required.</div>
+                        }
+                        @if (branchForm.get('email')?.errors?.['email'] && isSubmitted) {
+                        <div class="invalid-feedback">Enter a valid email.</div>
+                        }
                     </div>
 
                     <!-- Phone -->
                     <div class="col-md-3 mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" id="phone" class="form-control" formControlName="phone"
-                            [ngClass]="{ 'is-invalid': branchForm.controls['phone'].invalid && isSubmitted }"
+                        <input type="text" id="phone" autocomplete="off" class="form-control" formControlName="phone"
+                            [ngClass]="{ 'is-invalid': branchForm.get('phone')?.invalid && isSubmitted }"
                             placeholder="Enter Phone Number" />
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['phone'].errors?.['required'] && isSubmitted">
-                            Phone is required.
+                        @if (branchForm.get('phone')?.errors?.['required'] && isSubmitted) {
+                        <div class="invalid-feedback">Phone is required.</div>
+                        }
+                        @if (branchForm.get('phone')?.errors?.['pattern'] && isSubmitted) {
+                        <div class="invalid-feedback">Enter a valid phone number.</div>
+                        }
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <div style="display: flex;">
+                                <input readonly style="flex: 1;" matInput [matDatepicker]="dobPicker"
+                                    class="form-control" placeholder="Select date" formControlName="date" />
+                                <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                                <mat-datepicker #dobPicker></mat-datepicker>
+                            </div>
                         </div>
-                        <div class="invalid-feedback"
-                            *ngIf="branchForm.controls['phone'].errors?.['pattern'] && isSubmitted">
-                            Enter a valid phone number.
+                    </div>
+
+                    <!-- PDF Download -->
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Is PDF Download</label>
+                            <div style="display: flex;">
+                                <mat-checkbox formControlName="isPdf" class="custom-checkbox"></mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <mat-radio-group formControlName="isActive" class="d-flex gap-3">
+                                <mat-radio-button class="custom-radio" value="active">Active</mat-radio-button>
+                                <mat-radio-button class="custom-radio" value="inactive">Inactive</mat-radio-button>
+                            </mat-radio-group>
                         </div>
                     </div>
                 </div>
 
-                <!-- Details & Buttons -->
+                <!-- Buttons & Details -->
                 <div class="mt-4">
                     <div class="card-title">Branch Details</div>
                     <div class="card-text">Fill in the form below with accurate branch information.</div>
@@ -87,8 +111,6 @@
                         <button class="btn btn-primary" type="button" (click)="toggleViewList()">
                             {{ showViewList ? 'Hide List' : 'View List' }}
                         </button>
-
-
                         <button class="btn btn-success" type="submit">Submit</button>
                         <button mat-flat-button color="warn" type="button" (click)="onCancel()">Reset</button>
                     </div>
@@ -96,15 +118,13 @@
             </form>
         </div>
     </div>
-    <!-- Grid View Below the Form -->
-    @if(showViewList){ <div class="mt-4 card-custom">
-
-        <app-grid-view [title]="'Branch List'" [columns]="branchColumns" [data]="branchData"
-            (edit)="onEditBranch($event)" (delete)="onDeleteBranch($event)">
-        </app-grid-view>
-
+  <!-- Spinner -->
+ 
+    <!-- Grid View -->
+    @if (showViewList) {
+    <div class="mt-4 card-custom">
+        <app-grid-view #appGridView [config]="gridViewConfig" (editClickEvent)="onActionClick($event)"></app-grid-view> 
     </div>
     }
 </div>
-<ngx-spinner bdColor="rgba(0,0,0,0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
-</ngx-spinner>
+

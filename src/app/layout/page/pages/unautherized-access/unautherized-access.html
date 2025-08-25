@@ -1,0 +1,29 @@
+<section id="unauthorized-access">
+    <div class="container-fluid">
+        <div class="mt-5">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="row">
+                    <div class="col-12 text-center mt-5">
+                        <img src="../../../../../assets/images/unauthertized.jpg" alt=""
+                            class="img-fluid maintenance-img mt-2" height="300" width="300">
+                        <h1 class="mt-4">Unauthorized Access</h1>
+                        <div class="maintenance-text w-75 mx-auto mt-4">
+                            <p>Looks like you are not authorized to view this page. If access is required, please
+                                contact Support team</p>
+                        </div>
+                        @if (authService.isUserLoggedIn()) {
+                        <a [routerLink]="['/dashboard/dashboard']" class="btn btn-warning my-2">
+                            Back To Home
+                        </a>
+                        } @else {
+                        <a [routerLink]="['../login']" class="btn btn-primary my-2">
+                            Login
+                        </a>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

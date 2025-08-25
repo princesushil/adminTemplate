@@ -11,11 +11,10 @@ import { AppGridView } from '../../layout/shared/app-grid-view/grid-view';
 import { NgxSpinnerModule } from "ngx-spinner"; 
 @NgModule({
   declarations: [
-    BranchMaster ,// ✅ Declare component here 
+    BranchMaster , 
   ],
   imports: [
-    CommonModule,
-    MatButtonModule,
+    CommonModule, 
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
