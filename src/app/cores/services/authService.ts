@@ -27,12 +27,22 @@ export class AuthService {
   
   logout() { 
     localStorage.removeItem('p-token'); 
+    localStorage.removeItem('loggedInBranchAndFinancialYear'); 
     this.router.navigate(['/dashboard/dashboard'])  
   }
   redirectToLogin() {
     this.router.navigate(['/login'])
   }
- 
+ setBranchAndFinancialYear(details: any) {
+    localStorage.setItem('loggedInBranchAndFinancialYear', JSON.stringify(details));
+  }
+  getBranchAndFinancialYear() {
+    const details = localStorage.getItem('loggedInBranchAndFinancialYear');
+    return details ? JSON.parse(details) : null;
+  }
+  clearBranchAndFinancialYear() {
+    localStorage.removeItem('loggedInBranchAndFinancialYear');
+  }
   
 
 }
@@ -47,7 +57,7 @@ export class AuthService {
 // }
 
 //  isUserLoggedIn() {  
-//     let token = this.getCookie('newsLoginToken');
+//     let token = this.getCookie('newLoginToken');
     
 //     if (!token) {
 //       return false; 
@@ -65,7 +75,7 @@ export class AuthService {
 // }
 
 // get currentUser() { 
-//     let token = this.getCookie('newsLoginToken');
+//     let token = this.getCookie('newLoginToken');
     
 //     if (token) { 
 //       return new JwtHelperService().decodeToken(token);

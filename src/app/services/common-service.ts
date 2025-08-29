@@ -21,4 +21,8 @@ export class CommonService {
     link.click();
     document.body.removeChild(link);
   }
+  getRoleWiseMenu()
+  {
+     return this.http.get(`${environment.identityUrl}Menu/GetMenuByLoginUserRoleId`);
+  }
 }

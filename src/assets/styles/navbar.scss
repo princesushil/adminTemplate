@@ -1,4 +1,5 @@
 @use 'variables';
+
 .navbar-menu {
     position: fixed;
     top: 0;
@@ -29,6 +30,7 @@
             padding: 0.5rem 1rem;
             display: block;
             cursor: pointer;
+            margin-top: 5px;
             border-radius: 4px;
 
             &:hover {
@@ -126,6 +128,11 @@
             cursor: pointer;
         }
 
+        .navbar-item a.active {
+            color: #007bff;
+            /* highlight color */
+            font-weight: bold;
+        }
 
         .dropdown {
             position: relative;
@@ -153,7 +160,7 @@
 
             button.dropdown-item {
                 background: none;
-                border: none; 
+                border: none;
             }
 
             button.dropdown-item:hover {

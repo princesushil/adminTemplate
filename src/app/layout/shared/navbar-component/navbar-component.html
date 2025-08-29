@@ -71,82 +71,77 @@
         </div>
 
     </div>
-</div>
-
-
-
+</div> 
 <ul class="navbar-menu d-none d-md-flex align-items-center w-100">
 
-    @for (item of menuItems; track item.label) {
-    <li class="navbar-item" [ngClass]="{ 'has-children': item.children }">
+    @for (item of menuItems; track item.title) {
+    <li class="navbar-item" [ngClass]="{ 'has-children': item.subMenu?.length }">
 
-        @if (!item.children) {
-        <a [routerLink]="item.route">
-            <i class="material-icons mt-1">{{ item.icon }}</i> {{ item.label }}
+      @if (!item.subMenu?.length) {
+        <a [routerLink]="item.url" routerLinkActive="active" class="pnavbar">
+          <i class="{{ item.icon }} mt-1"></i> {{ item.title }}
         </a>
-        } @else {
+      } @else {
         <div class="dropdown">
-            <span class="dropdown-label">
-                <i class="material-icons">{{ item.icon }}</i>
-                <span class="label-text ms-1">{{ item.label }}</span>
-                <i class="material-icons toggle-icon ms-auto">expand_more</i>
-            </span>
+          <span class="dropdown-label">
+            <i class="{{ item.icon }}"></i>
+            <span class="label-text ms-1">{{ item.title }}</span>
+            <i class="material-icons toggle-icon ms-auto">expand_more</i>
+          </span>
 
-            <ul class="submenu">
-                @for (child of item.children; track child.label) {
-                <li class="submenu-item" [ngClass]="{ 'has-children': child.children }">
+          <ul class="submenu">
+            @for (child of item.subMenu; track child.title) {
+              <li class="submenu-item" [ngClass]="{ 'has-children': child.subMenu?.length }">
 
-                    @if (!child.children) {
-                    <a [routerLink]="child.route">
-                        <i class="material-icons mt-1">{{ child.icon }}</i> {{ child.label }}
-                    </a>
-                    } @else {
-                    <div class="dropdown">
-                        <span class="dropdown-label">
-                            <i class="material-icons mt-1">{{ child.icon }}</i>
-                            <span class="label-text ms-1">{{ child.label }}</span>
-                            <i class="material-icons toggle-icon ms-auto">chevron_right</i>
-                        </span>
+                @if (!child.subMenu?.length) {
+                  <a [routerLink]="child.url">
+                    <i class="{{ child.icon }} mt-1"></i> {{ child.title }}
+                  </a>
+                } @else {
+                  <div class="dropdown">
+                    <span class="dropdown-label">
+                      <i class="{{ child.icon }} mt-1"></i>
+                      <span class="label-text ms-1">{{ child.title }}</span>
+                      <i class="material-icons toggle-icon ms-auto">chevron_right</i>
+                    </span>
 
-                        <ul class="submenu">
-                            @for (grandChild of child.children; track grandChild.label) {
-                            <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.children }">
+                    <ul class="submenu">
+                      @for (grandChild of child.subMenu; track grandChild.title) {
+                        <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.subMenu?.length }">
 
-                                @if (!grandChild.children) {
-                                <a [routerLink]="grandChild.route">
-                                    <i class="material-icons mt-1">{{ grandChild.icon }}</i> {{ grandChild.label }}
-                                </a>
-                                } @else {
-                                <div class="dropdown">
-                                    <span class="dropdown-label">
-                                        <i class="material-icons mt-1">{{ grandChild.icon }}</i>
-                                        {{ grandChild.label }}
-                                        <i class="material-icons toggle-icon ms-1">chevron_right</i>
-                                    </span>
+                          @if (!grandChild.subMenu?.length) {
+                            <a [routerLink]="grandChild.url">
+                              <i class="{{ grandChild.icon }} mt-1"></i> {{ grandChild.title }}
+                            </a>
+                          } @else {
+                            <div class="dropdown">
+                              <span class="dropdown-label">
+                                <i class="{{ grandChild.icon }} mt-1"></i>
+                                {{ grandChild.title }}
+                                <i class="material-icons toggle-icon ms-1">chevron_right</i>
+                              </span>
 
-                                    <ul class="submenu">
-                                        @for (greatGrandChild of grandChild.children; track greatGrandChild.label) {
-                                        <li class="submenu-item">
-                                            <a [routerLink]="greatGrandChild.route">
-                                                <i class="material-icons mt-1">{{ greatGrandChild.icon }}</i> {{
-                                                greatGrandChild.label }}
-                                            </a>
-                                        </li>
-                                        }
-                                    </ul>
-                                </div>
+                              <ul class="submenu">
+                                @for (greatGrandChild of grandChild.subMenu; track greatGrandChild.title) {
+                                  <li class="submenu-item">
+                                    <a [routerLink]="greatGrandChild.url">
+                                      <i class="{{ greatGrandChild.icon }} mt-1"></i> {{ greatGrandChild.title }}
+                                    </a>
+                                  </li>
                                 }
-                            </li>
-                            }
-                        </ul>
-                    </div>
-                    }
-                </li>
+                              </ul>
+                            </div>
+                          }
+                        </li>
+                      }
+                    </ul>
+                  </div>
                 }
-            </ul>
+              </li>
+            }
+          </ul>
         </div>
-        }
-
+      }
     </li>
     }
 
