@@ -1,12 +1,16 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../cores/services/authService';
 import { RegistrationService } from '../../../../services/registration-service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CommonService } from '../../../../services/common-service';
+import { AppStateService } from '../../../../cores/services/app-state-service';
+import { MenuService } from '../../../../cores/services/menu-service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-login',
@@ -18,19 +22,22 @@ export class Login implements OnInit {
   loginForm!: FormGroup;
   submitted = false;
   ngUnsubscribe = new Subject();
-  email: string | null = '';
-  otp: string | null = '';
+  email: string = '';
+  otp: string = '';
   user: any;
   loginData: any;
+  menuList: any;
+  isMenuLoaded: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute,
     private auth: AuthService,
     private registrationService: RegistrationService,
-    private spinner: NgxSpinnerService
+    private _commonService: CommonService,
+    private spinner: NgxSpinnerService,
+    private menuService: MenuService
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +47,7 @@ export class Login implements OnInit {
     });
 
     if (this.auth.isUserLoggedIn()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/dashboard/dashboard']);
     }
 
   }
@@ -71,8 +78,8 @@ export class Login implements OnInit {
           this.submitted = false;
           if (response.token) {
             localStorage.setItem('p-token', response.token);
-            const id = this.auth.currentUser?.id
-            this.router.navigate(['/dashboard/dashboard']);
+              this.router.navigate(['/dashboard/dashboard']);
+            this.loadMenuIfNeeded()
             this.auth.currentUserSubject?.next(true);
           }
         }
@@ -83,4 +90,23 @@ export class Login implements OnInit {
       }
     );
   }
+  private loadMenuIfNeeded(): void {
+    if (!this.menuList && !this.isMenuLoaded) {
+      this.isMenuLoaded = true; // ✅ prevent multiple calls
+      this._commonService
+        .getRoleWiseMenu()
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((response: any) => {
+          if (response) {
+            this.menuService.setMenuItems(response); 
+            localStorage.setItem('loggedInAtMoment', moment(moment()).format("HH:mm:ss"));
+            //this.router.navigate(['/dashboard/dashboard']);
+          }
+        });
+    }
+    else{
+       this.router.navigate(['/dashboard/dashboard']);
+    }
+  }
+
 }

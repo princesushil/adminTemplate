@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { GridViewConfig, GridViewResult } from '../../../models/GridViewConfig.model';
 import { HttpResponse } from '@angular/common/http';
@@ -15,6 +15,7 @@ import { CommonService } from '../../../services/common-service';
   standalone: true,
   templateUrl: './grid-view.html',
   styleUrls: ['./grid-view.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,

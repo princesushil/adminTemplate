@@ -367,6 +367,10 @@ export class BranchMaster implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       date: [],
+      attachment:[],
+      isEmail: [],
+      number:[],
+      remark: [],
       isChecked: [],
       isPdf: [],
       isActive: ['active']

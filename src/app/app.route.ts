@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './modules/dashboard/dashboard-component/dashboard-component';
+ 
  
 
 export const routes: Routes = [
@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: 'master', loadChildren: () => import('./modules/master/master-module').then(m => m.MasterModule) },
   { path: 'page', loadChildren: () => import('./layout/page/pages/pages-module').then(m => m.PagesModule) },
   { path: '', redirectTo: 'page/login', pathMatch: 'full' }, 
-  { path: '**', redirectTo: 'page/unautherized-access' }
+  { path: '**', redirectTo: 'page/unautherized-access' },  
 ];

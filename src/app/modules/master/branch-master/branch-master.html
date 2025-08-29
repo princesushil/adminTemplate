@@ -1,4 +1,4 @@
-<div class="section">
+<div class="section mt-5">
     <h2>Branch Master</h2>
     <div class="container-fluid mt-4">
         <div class="card-custom">
@@ -8,7 +8,7 @@
                     <div class="col-md-3 mb-3">
                         <label for="branchName" class="form-label">Branch Name</label>
                         <input type="text" id="branchName" autocomplete="off" class="form-control"
-                            formControlName="branchName"
+                            formControlName="branchName" name="branchName"
                             [ngClass]="{ 'is-invalid': branchForm.get('branchName')?.invalid && isSubmitted }"
                             placeholder="Enter Branch Name" />
                         @if (branchForm.get('branchName')?.errors?.['required'] && isSubmitted) {
@@ -20,7 +20,7 @@
                     <div class="col-md-3 mb-3">
                         <label for="branchCode" class="form-label">Branch Code</label>
                         <input type="text" id="branchCode" autocomplete="off" class="form-control"
-                            formControlName="branchCode"
+                            formControlName="branchCode" name="branchCode"
                             [ngClass]="{ 'is-invalid': branchForm.get('branchCode')?.invalid && isSubmitted }"
                             placeholder="Enter Branch Code" />
                         @if (branchForm.get('branchCode')?.errors?.['required'] && isSubmitted) {
@@ -32,7 +32,7 @@
                     <div class="col-md-3 mb-3">
                         <label for="state" class="form-label">State</label>
                         <ng-select [items]="states" bindLabel="label" bindValue="value" placeholder="Select State"
-                            formControlName="state" class="ng-select"
+                            formControlName="state" class="ng-select" name="state"
                             [ngClass]="{ 'is-invalid': branchForm.get('state')?.invalid && isSubmitted }"></ng-select>
                         @if (branchForm.get('state')?.errors?.['required'] && isSubmitted) {
                         <div class="invalid-feedback">State is required.</div>
@@ -42,7 +42,7 @@
                     <!-- Email -->
                     <div class="col-md-3 mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" id="email" autocomplete="off" class="form-control" formControlName="email"
+                        <input type="email" name="email" id="email" autocomplete="off" class="form-control" formControlName="email"
                             [ngClass]="{ 'is-invalid': branchForm.get('email')?.invalid && isSubmitted }"
                             placeholder="Enter Email" />
                         @if (branchForm.get('email')?.errors?.['required'] && isSubmitted) {
@@ -56,7 +56,7 @@
                     <!-- Phone -->
                     <div class="col-md-3 mb-3">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" id="phone" autocomplete="off" class="form-control" formControlName="phone"
+                        <input type="text" name="phone" id="phone" autocomplete="off" class="form-control" formControlName="phone"
                             [ngClass]="{ 'is-invalid': branchForm.get('phone')?.invalid && isSubmitted }"
                             placeholder="Enter Phone Number" />
                         @if (branchForm.get('phone')?.errors?.['required'] && isSubmitted) {
@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label class="form-label">Date of Birth</label>
                             <div style="display: flex;">
-                                <input readonly style="flex: 1;" matInput [matDatepicker]="dobPicker"
+                                <input readonly style="flex: 1;" name="date" matInput [matDatepicker]="dobPicker"
                                     class="form-control" placeholder="Select date" formControlName="date" />
                                 <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
                                 <mat-datepicker #dobPicker></mat-datepicker>
@@ -85,18 +85,47 @@
                         <div class="form-group">
                             <label class="form-label">Is PDF Download</label>
                             <div style="display: flex;">
-                                <mat-checkbox formControlName="isPdf" class="custom-checkbox"></mat-checkbox>
+                             <mat-checkbox name="isPdf" formControlName="isPdf" class="custom-checkbox"></mat-checkbox>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label">Is Email</label>
+                            <div style="display: flex;">
+                                <mat-checkbox name="isEmail" formControlName="isEmail" class="custom-checkbox"></mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label" for="remark">Remark</label>
+                         <textarea id="remark" formControlName="remark" name="remark" class="form-control"  style=" height: 100px;">></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label" for="remark">Number</label>
+                            <input type="number" class="form-control"  name="number"formControlName="number"
+                                placeholder="Enter number" />
+                        </div>
+                    </div>
+                     <div class="col-md-3 mb-3">
+                        <div class="form-group">
+                            <label class="form-label" for="remark">Attachment</label>
+                            <input type="file" name="attachment" class="form-control" formControlName="attachment"
+                                placeholder="Enter number" />
+                        </div>
+                    </div>
+
 
                     <!-- Status -->
                     <div class="col-md-3 mb-3">
                         <div class="form-group">
                             <label class="form-label">Status</label>
                             <mat-radio-group formControlName="isActive" class="d-flex gap-3">
-                                <mat-radio-button class="custom-radio" value="active">Active</mat-radio-button>
-                                <mat-radio-button class="custom-radio" value="inactive">Inactive</mat-radio-button>
+                                <mat-radio-button name="isActive" class="custom-radio" value="active">Active</mat-radio-button>
+                                <mat-radio-button name="isActive" class="custom-radio" value="inactive">Inactive</mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
@@ -118,13 +147,12 @@
             </form>
         </div>
     </div>
-  <!-- Spinner -->
- 
+    <!-- Spinner -->
+
     <!-- Grid View -->
     @if (showViewList) {
     <div class="mt-4 card-custom">
-        <app-grid-view #appGridView [config]="gridViewConfig" (editClickEvent)="onActionClick($event)"></app-grid-view> 
+        <app-grid-view #appGridView [config]="gridViewConfig" (editClickEvent)="onActionClick($event)"></app-grid-view>
     </div>
     }
 </div>
-
