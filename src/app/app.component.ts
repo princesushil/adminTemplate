@@ -3,10 +3,8 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layout/shared/navbar-component/navbar-component';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { hiddenRoutes } from './constants/data';
-import { LocalStorageService } from './services/local-storage-service';
-import { CommonService } from './services/common-service';
-import { AppStateService } from './cores/services/app-state-service';
-import { MenuService } from './cores/services/menu-service';
+import { LocalStorageService } from './services/local-storage-service'; 
+import moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -25,13 +23,20 @@ export class App implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private localStorageService: LocalStorageService,
-    private _commonService: CommonService,
-   private menuService: MenuService
-  ) {}
+    private localStorageService: LocalStorageService, 
+  ) { }
 
-  ngOnInit(): void { 
- 
+  ngOnInit(): void {
+    const loggedInAt = localStorage.getItem('loggedInAtMoment'); 
+    const loginTime = moment(loggedInAt, "HH:mm:ss");
+    const now = moment();
+    const diffInHours = now.diff(loginTime, 'hours');
+
+    if (diffInHours >= 2) { 
+      localStorage.removeItem('p-token');
+      localStorage.removeItem('loggedInAtMoment');
+      this.router.navigate(['/login']);
+    }
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
@@ -39,13 +44,10 @@ export class App implements OnInit, OnDestroy {
       )
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
-        var isLoggedIn = this.localStorageService?.isUserLoggedIn();  
-        this.showNavbar =
-          isLoggedIn &&
-          hiddenRoutes &&
-          !hiddenRoutes.includes(url);  
-      }); 
-  }  
+        var isLoggedIn = this.localStorageService?.isUserLoggedIn();
+        this.showNavbar = isLoggedIn && hiddenRoutes && !hiddenRoutes.includes(url);
+      });
+  }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

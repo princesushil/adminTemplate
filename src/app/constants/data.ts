@@ -1,4 +1,4 @@
- export const hiddenRoutes = [ '/page/register','/page/login',"/dashboard/financial-year", '/page/unautherized-access','/page/register','/page/forget-password','/forget-password'];
+ export const hiddenRoutes = [ '/profile','/settings', '/page/register','/page/login',"/dashboard/financial-year", '/page/unautherized-access','/page/register','/page/forget-password','/forget-password'];
  export const  notifications = [
     { message: 'New order placed Inventory updatedInventory updatedInventory updatedInventory updatedInventory updatedInventory updated', read: false, time: new Date() },
     { message: 'Inventory updated', read: false, time: new Date(Date.now() - 10000000) },
@@ -16,8 +16,7 @@
     { message: 'Inventory updated', read: false, time: new Date(Date.now() - 10000000) },
     { message: 'System reboot scheduled', read: true, time: new Date(Date.now() - 3600000) },
   ];
-  export const menuList = [
-
+  export const menuList = [ 
     {
       label: 'Dashboard',
       icon: 'dashboard',

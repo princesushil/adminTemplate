@@ -30,32 +30,7 @@ export class BranchMaster implements OnInit {
   states = [
     { label: 'Maharashtra', value: 'MH' },
     { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-    { label: 'Maharashtra', value: 'MH' },
-    { label: 'Gujarat', value: 'GJ' },
-    { label: 'Karnataka', value: 'KA' },
-
+    { label: 'Karnataka', value: 'KA' } 
   ];
   branchColumns = [
     {

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RegistrationService } from '../../../../services/registration-service';
 import { Router } from '@angular/router';
 import { passwordMatchValidator } from '../../../../cores/functions/passwordMatchValidator';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,7 @@ import { passwordMatchValidator } from '../../../../cores/functions/passwordMatc
 export class Register {
   registerForm: FormGroup;
   submitted = false;
+  ngUnsubscribe = new Subject<void>();
   userRegistrationModel: any = []
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private registrationService: RegistrationService, private router: Router) {
@@ -39,11 +41,9 @@ export class Register {
     }
     this.userRegistrationModel = Object.assign({}, this.registerForm.value)
 
-    this.registrationService.register(this.registerForm.value).subscribe(
+    this.registrationService.register(this.registerForm.value).pipe.apply(takeUntil(this.ngUnsubscribe)).subscribe(
       (response: any) => {
         if (response) {
-          // localStorage.setItem('newsLoginToken', response.output.token);
-
           this.toastr.success('Registered successfully! please login', 'Success');
           this.router.navigate(['/login']);
 
@@ -61,9 +61,12 @@ export class Register {
     );
   }
 
-
   reset() {
     this.registerForm.reset();
     this.submitted = false;
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
