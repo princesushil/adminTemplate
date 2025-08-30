@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject } from 'rxjs';   
-import { ToastrService } from 'ngx-toastr'; 
+import { BehaviorSubject } from 'rxjs';    
+import { MenuService } from './menu-service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService { 
   public currentUserSubject = new BehaviorSubject<any>(null);  
-  constructor( private toastr: ToastrService,public router: Router) { }
+  constructor(public router: Router,private menuService:MenuService) { }
 
   isUserLoggedIn() {  
-        let token = localStorage.getItem('p-token');
-        let isExpired = new JwtHelperService().isTokenExpired(token);
-        if (!token && isExpired) {
-          return false;
-        } 
-        this.currentUserSubject?.next(true);
-        return true; 
+     let token = localStorage.getItem('p-token');
+     let isExpired = new JwtHelperService().isTokenExpired(token);
+    if (!token && isExpired) {
+        return false;
+     } 
+     this.currentUserSubject?.next(true);
+    return true; 
     } 
   
   get currentUser() { 
@@ -26,25 +26,15 @@ export class AuthService {
   }  
   
   logout() { 
-    localStorage.removeItem('p-token'); 
-    localStorage.removeItem('loggedInBranchAndFinancialYear'); 
-    this.router.navigate(['/dashboard/dashboard'])  
+    localStorage.removeItem('p-token');  
+     this.menuService.clearMenuItems();
+
+  this.currentUserSubject.next(false);
+    this.router.navigate(['/page/login'])  
   }
   redirectToLogin() {
     this.router.navigate(['/login'])
-  }
- setBranchAndFinancialYear(details: any) {
-    localStorage.setItem('loggedInBranchAndFinancialYear', JSON.stringify(details));
-  }
-  getBranchAndFinancialYear() {
-    const details = localStorage.getItem('loggedInBranchAndFinancialYear');
-    return details ? JSON.parse(details) : null;
-  }
-  clearBranchAndFinancialYear() {
-    localStorage.removeItem('loggedInBranchAndFinancialYear');
-  }
-  
-
+  }  
 }
 
 

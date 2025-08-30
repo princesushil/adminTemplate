@@ -1,272 +1,323 @@
 <!-- Fixed hamburger toggle button -->
 <!-- Top Fixed Navbar for Small Devices -->
 <div class="d-flex align-items-center justify-content-between d-md-none position-fixed top-0 start-0 w-100 p-2 z-1030"
-    style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); height: 56px;">
+  style="background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); height: 56px;">
 
-    <!-- Sidebar Toggle Button -->
-    <button class="btn btn-dark d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
-        aria-controls="sidebar">
-        <i class="bi bi-list"></i>
-    </button>
+  <!-- Sidebar Toggle Button -->
+  <button class="btn btn-dark d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar"
+    aria-controls="sidebar">
+    <i class="bi bi-list"></i>
+  </button>
 
-    <!-- Right Side Icons -->
-    <div class="d-flex  gap-3 me-2">
+  <!-- Right Side Icons -->
+  <div class="d-flex  gap-3 me-2">
 
-        <!-- Notification Bell -->
-        <div class="position-relative" (click)="toggleNotifications()" style="cursor: pointer;">
-            <i class="material-icons mt-1">notifications</i>
-            @if(getUnreadCount() > 0){<span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                {{ getUnreadCount() }}
-            </span>
-            }
+    <!-- Notification Bell -->
+    <div class="position-relative mt-2" (click)="toggleNotifications()" style="cursor: pointer;">
+      <i class="material-icons mt-2">notifications</i>
+      @if(getUnreadCount() > 0){<span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+        {{ getUnreadCount() }}
+      </span>
+      }
 
-            <!-- Notification Dropdown -->
-            @if(showNotifications){ <div class="notification-dropdown mt-2 shadow bg-white rounded"
-                style="position: absolute; right: 0; top: 40px; width: 250px; z-index: 999;">
-                <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
-                    <span>Notifications</span>
-                    <div>
-                        <button class="btn btn-sm btn-link" (click)="markAllAsRead()">Mark all as read</button>
-                        <button class="btn btn-sm btn-link text-danger" (click)="clearAll()">Clear</button>
-                    </div>
-                </div>
+      <!-- Notification Dropdown -->
+      @if(showNotifications){ <div class="notification-dropdown mt-2 shadow bg-white rounded"
+        style="position: absolute; right: 0; top: 40px; width: 250px; z-index: 999;">
+        <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+          <span>Notifications</span>
+          <div>
+            <button class="btn btn-sm btn-link" (click)="markAllAsRead()">Mark all as read</button>
+            <button class="btn btn-sm btn-link text-danger" (click)="clearAll()">Clear</button>
+          </div>
+        </div>
 
-                <ul class="list-unstyled m-0 p-2" style="max-height: 250px; overflow-y: auto;">
-                    <li *ngFor="let notification of notifications"
-                        class="d-flex align-items-start gap-2 py-2 border-bottom"
-                        [ngClass]="{ 'fw-bold': !notification.read }" (click)="handleNotificationClick(notification)">
-                        <i class="material-icons text-primary">
-                            {{ notification.read ? 'notifications_none' : 'notifications' }}
-                        </i>
-                        <div>
-                            <div class="small">{{ notification.message }}</div>
-                            <div class="text-muted small">{{ notification.time | date: 'short' }}</div>
-                        </div>
-                    </li>
-                    @if(notifications.length === 0){<li class="text-muted text-center py-2">No notifications</li>}
-                </ul>
+        <ul class="list-unstyled m-0 p-2" style="max-height: 250px; overflow-y: auto;">
+          <li *ngFor="let notification of notifications" class="d-flex align-items-start gap-2 py-2 border-bottom"
+            [ngClass]="{ 'fw-bold': !notification.read }" (click)="handleNotificationClick(notification)">
+            <i class="material-icons text-primary">
+              {{ notification.read ? 'notifications_none' : 'notifications' }}
+            </i>
+            <div>
+              <div class="small">{{ notification.message }}</div>
+              <div class="text-muted small">{{ notification.time | date: 'short' }}</div>
             </div>
-            }
-        </div>
-
-        <!-- User Profile -->
-        <div class="dropdown">
-            <button class="btn btn-sm d-flex align-items-center " type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
-
-                <span class="d-inline"> <i class="fa fa-user"></i></span>
-
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li><a class="dropdown-item" routerLink="/profile"><i
-                            class="material-icons me-2">account_circle</i>Profile</a></li>
-                <li><a class="dropdown-item" routerLink="/settings"><i
-                            class="material-icons me-2">settings</i>Settings</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><button class="dropdown-item text-danger" (click)="logout()"><i
-                            class="material-icons me-2">logout</i>Logout</button></li>
-            </ul>
-        </div>
-
+          </li>
+          @if(notifications.length === 0){<li class="text-muted text-center py-2">No notifications</li>}
+        </ul>
+      </div>
+      }
     </div>
-</div> 
+
+    <!-- User Profile -->
+    <div class="dropdown">
+      <div class="d-flex align-items-start justify-content-start ">
+        <button class="btn btn-sm d-flex align-items-center mt-2 " type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+
+          <span class="d-inline"> <i class="fa fa-user "></i></span>
+
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+          <li><a class="dropdown-item" routerLink="/profile"><i
+                class="material-icons me-2">account_circle</i>Profile</a></li>
+          <li><a class="dropdown-item" routerLink="/settings"><i class="material-icons me-2">settings</i>Settings</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><button class="dropdown-item text-danger" (click)="logout()"><i
+                class="material-icons me-2">logout</i>Logout</button></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
 <ul class="navbar-menu d-none d-md-flex align-items-center w-100">
 
-    @for (item of menuItems; track item.title) {
-    <li class="navbar-item" [ngClass]="{ 'has-children': item.subMenu?.length }">
+  @for (item of menuItems$ | async; track item.id) {
+  <li class="navbar-item" [ngClass]="{ 'has-children': item.subMenu?.length }">
 
-      @if (!item.subMenu?.length) {
-        <a [routerLink]="item.url" routerLinkActive="active" class="pnavbar">
-          <i class="{{ item.icon }} mt-1"></i> {{ item.title }}
-        </a>
-      } @else {
-        <div class="dropdown">
-          <span class="dropdown-label">
-            <i class="{{ item.icon }}"></i>
-            <span class="label-text ms-1">{{ item.title }}</span>
-            <i class="material-icons toggle-icon ms-auto">expand_more</i>
-          </span>
+    @if (!item.subMenu?.length) {
+    <a [routerLink]="item.url" routerLinkActive="active" class="pnavbar">
+      <i class="{{ item.icon }} mt-1"></i> {{ item.title }}
+    </a>
+    } @else {
+    <div class="dropdown">
+      <span class="dropdown-label">
+        <i class="{{ item.icon }}"></i>
+        <span class="label-text ms-1">{{ item.title }}</span>
+        <i class="material-icons toggle-icon ms-auto">expand_more</i>
+      </span>
 
-          <ul class="submenu">
-            @for (child of item.subMenu; track child.title) {
-              <li class="submenu-item" [ngClass]="{ 'has-children': child.subMenu?.length }">
+      <ul class="submenu">
+        @for (child of item.subMenu; track child.title) {
+        <li class="submenu-item" [ngClass]="{ 'has-children': child.subMenu?.length }">
 
-                @if (!child.subMenu?.length) {
-                  <a [routerLink]="child.url">
-                    <i class="{{ child.icon }} mt-1"></i> {{ child.title }}
-                  </a>
+          @if (!child.subMenu?.length) {
+          <a [routerLink]="child.url">
+            <i class="{{ child.icon }} mt-1"></i> {{ child.title }}
+          </a>
+          } @else {
+          <div class="dropdown">
+            <span class="dropdown-label">
+              <i class="{{ child.icon }} mt-1"></i>
+              <span class="label-text ms-1">{{ child.title }}</span>
+              <i class="material-icons toggle-icon ms-auto">chevron_right</i>
+            </span>
+
+            <ul class="submenu">
+              @for (grandChild of child.subMenu; track grandChild.title) {
+              <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.subMenu?.length }">
+
+                @if (!grandChild.subMenu?.length) {
+                <a [routerLink]="grandChild.url">
+                  <i class="{{ grandChild.icon }} mt-1"></i> {{ grandChild.title }}
+                </a>
                 } @else {
-                  <div class="dropdown">
-                    <span class="dropdown-label">
-                      <i class="{{ child.icon }} mt-1"></i>
-                      <span class="label-text ms-1">{{ child.title }}</span>
-                      <i class="material-icons toggle-icon ms-auto">chevron_right</i>
-                    </span>
+                <div class="dropdown">
+                  <span class="dropdown-label">
+                    <i class="{{ grandChild.icon }} mt-1"></i>
+                    {{ grandChild.title }}
+                    <i class="material-icons toggle-icon ms-1">chevron_right</i>
+                  </span>
 
-                    <ul class="submenu">
-                      @for (grandChild of child.subMenu; track grandChild.title) {
-                        <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.subMenu?.length }">
-
-                          @if (!grandChild.subMenu?.length) {
-                            <a [routerLink]="grandChild.url">
-                              <i class="{{ grandChild.icon }} mt-1"></i> {{ grandChild.title }}
-                            </a>
-                          } @else {
-                            <div class="dropdown">
-                              <span class="dropdown-label">
-                                <i class="{{ grandChild.icon }} mt-1"></i>
-                                {{ grandChild.title }}
-                                <i class="material-icons toggle-icon ms-1">chevron_right</i>
-                              </span>
-
-                              <ul class="submenu">
-                                @for (greatGrandChild of grandChild.subMenu; track greatGrandChild.title) {
-                                  <li class="submenu-item">
-                                    <a [routerLink]="greatGrandChild.url">
-                                      <i class="{{ greatGrandChild.icon }} mt-1"></i> {{ greatGrandChild.title }}
-                                    </a>
-                                  </li>
-                                }
-                              </ul>
-                            </div>
-                          }
-                        </li>
-                      }
-                    </ul>
-                  </div>
+                  <ul class="submenu">
+                    @for (greatGrandChild of grandChild.subMenu; track greatGrandChild.title) {
+                    <li class="submenu-item">
+                      <a [routerLink]="greatGrandChild.url">
+                        <i class="{{ greatGrandChild.icon }} mt-1"></i> {{ greatGrandChild.title }}
+                      </a>
+                    </li>
+                    }
+                  </ul>
+                </div>
                 }
               </li>
-            }
-          </ul>
-        </div>
-      }
-    </li>
-    }
-
-    <!-- Spacer to push right section to the end -->
-    <li class="flex-grow-1"></li>
-
-    <!-- Right-side controls -->
-    <li class="navbar-item d-flex align-items-center gap-3 pe-3">
-
-        <!-- Notification -->
-        <div class="notification-wrapper position-relative">
-            <i class="material-icons cursor-pointer" (click)="toggleNotifications()">notifications</i>
-            @if (getUnreadCount() > 0) {
-            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-                {{ getUnreadCount() }}
-            </span>
-            }
-
-            <!-- Notification Dropdown -->
-            @if (showNotifications) {
-            <div class="notification-dropdown">
-                <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2">
-                    <span>Notifications</span>
-                    <div class="actions">
-                        <button class="btn btn-sm btn-link" (click)="markAllAsRead()">Mark all as read</button>
-                        <button class="btn btn-sm btn-link text-danger" (click)="clearAll()">Clear</button>
-                    </div>
-                </div>
-
-                <ul class="notification-list">
-                    @for (notification of notifications; track notification.message) {
-                    <li [ngClass]="{ unread: !notification.read }" (click)="handleNotificationClick(notification)">
-                        <i class="material-icons me-2 text-primary">
-                            {{ notification.read ? 'notifications_none' : 'notifications' }}
-                        </i>
-                        <div>
-                            <div class="message">{{ notification.message }}</div>
-                            <div class="timestamp">{{ notification.time | date: 'short' }}</div>
-                        </div>
-                    </li>
-                    }
-
-                    @if (notifications.length === 0) {
-                    <li class="text-muted text-center p-2">
-                        No notifications
-                    </li>
-                    }
-                </ul>
-            </div>
-            }
-
-        </div>
-
-        <!-- User Profile Dropdown -->
-        <div class="dropdown user-profile">
-            <span class="d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-user"></i>
-            </span>
-            <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li>
-                    <a class="dropdown-item" routerLink="/profile">
-                        <i class="material-icons me-2">account_circle</i> Profile
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" routerLink="/settings">
-                        <i class="material-icons me-2">settings</i> Settings
-                    </a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li>
-                    <button class="dropdown-item text-danger" (click)="logout()">
-                        <i class="material-icons text-danger me-2">logout</i> Logout
-                    </button>
-                </li>
+              }
             </ul>
+          </div>
+          }
+        </li>
+        }
+      </ul>
+    </div>
+    }
+  </li>
+  }
+
+  <!-- Spacer to push right section to the end -->
+  <li class="flex-grow-1"></li>
+
+  <!-- Right-side controls -->
+  <li class="navbar-item d-flex align-items-center gap-3 pe-3">
+
+    <!-- Notification -->
+    <div class="notification-wrapper position-relative mt-2">
+      <i class="material-icons cursor-pointer " (click)="toggleNotifications()">notifications</i>
+      @if (getUnreadCount() > 0) {
+      <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+        {{ getUnreadCount() }}
+      </span>
+      }
+
+      <!-- Notification Dropdown -->
+      @if (showNotifications) {
+      <div class="notification-dropdown">
+        <div class="dropdown-header d-flex justify-content-between align-items-center px-3 py-2">
+          <span>Notifications</span>
+          <div class="actions">
+            <button class="btn btn-sm btn-link" (click)="markAllAsRead()">Mark all as read</button>
+            <button class="btn btn-sm btn-link text-danger" (click)="clearAll()">Clear</button>
+          </div>
         </div>
 
-    </li>
+        <ul class="notification-list">
+          @for (notification of notifications; track notification.message) {
+          <li [ngClass]="{ unread: !notification.read }" (click)="handleNotificationClick(notification)">
+            <i class="material-icons me-2 text-primary">
+              {{ notification.read ? 'notifications_none' : 'notifications' }}
+            </i>
+            <div>
+              <div class="message">{{ notification.message }}</div>
+              <div class="timestamp">{{ notification.time | date: 'short' }}</div>
+            </div>
+          </li>
+          }
+
+          @if (notifications.length === 0) {
+          <li class="text-muted text-center p-2">
+            No notifications
+          </li>
+          }
+        </ul>
+      </div>
+      }
+
+    </div>
+
+    <!-- User Profile Dropdown -->
+    <div class="dropdown user-profile">
+      <span class="d-flex align-items-start  " data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa fa-user"></i>
+      </span>
+      <ul class="dropdown-menu dropdown-menu-end shadow">
+        <li>
+          <a class="dropdown-item" routerLink="/profile">
+            <i class="material-icons me-2">account_circle</i> Profile
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" routerLink="/settings">
+            <i class="material-icons me-2">settings</i> Settings
+          </a>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <button class="dropdown-item text-danger" (click)="logout()">
+            <i class="material-icons text-danger me-2">logout</i> Logout
+          </button>
+        </li>
+      </ul>
+    </div>
+
+  </li>
 </ul>
 
 
-<!-- MOBILE SIDEBAR -->
-<div class="offcanvas offcanvas-start d-md-none text-dark" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel"
-    style="width: 100%;">
-    <div class="offcanvas-header">
-        <button type="button" class="btn-close bg-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <ul class="list-unstyled ps-2">
-            <ng-container *ngFor="let item of menuItems">
-                <ng-template [ngTemplateOutlet]="renderMenu"
-                    [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
-            </ng-container>
+ <!-- MOBILE SIDEBAR --><!-- MOBILE SIDEBAR -->
+<div class="offcanvas offcanvas-start d-md-none text-dark" tabindex="-1" id="sidebar"
+  aria-labelledby="sidebarLabel" style="width: 100%;">
+  <div class="offcanvas-header">
+    <button type="button" class="btn-close bg-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="list-unstyled ps-2">
+      @for (item of menuItems$ | async; track item.title) {
+      <li class="submenu-item" [ngClass]="{ 'has-children': item.subMenu?.length }">
 
-        </ul>
-    </div>
+        @if (!item.subMenu?.length) {
+        <a [routerLink]="item.url" class="d-flex align-items-center">
+          <i class="{{ item.icon }} me-2"></i> {{ item.title }}
+        </a>
+        } @else {
+        <div class="dropdown">
+          <span class="dropdown-label d-flex align-items-center" (click)="toggleSubmenu(item)">
+            <i class="{{ item.icon }} me-2"></i>
+            <span class="label-text">{{ item.title }}</span>
+            <i class="material-icons toggle-icon ms-auto">
+              {{ isSubmenuOpen[item.title] ? 'expand_more' : 'chevron_right' }}
+            </i>
+          </span>
 
-</div>
+          @if (isSubmenuOpen[item.title]) {
+          <ul class="submenu ps-3">
+            @for (child of item.subMenu; track child.title) {
+            <li class="submenu-item" style="list-style-type:none;" [ngClass]="{ 'has-children': child.subMenu?.length }">
 
-<!-- Recursive Menu Template -->
-<ng-template #renderMenu let-item>
-    <li class="mb-2">
-        <div class="d-flex justify-content-between align-items-center px-2 py-1" (click)="toggleSubmenu(item)">
-            <div>
-                <i class="material-icons me-2">{{ item.icon }}</i>
-                @if(!item.children){<a [routerLink]="item.route" class="text-decoration-none">
-                    {{ item.label }}
-                </a>
+              @if (!child.subMenu?.length) {
+              <a [routerLink]="child.url" class="d-flex align-items-center">
+                <i class="{{ child.icon }} me-2"></i> {{ child.title }}
+              </a>
+              } @else {
+              <div class="dropdown">
+                <span class="dropdown-label d-flex align-items-center" (click)="toggleSubmenu(child)">
+                  <i class="{{ child.icon }} me-2"></i>
+                  {{ child.title }}
+                  <i class="material-icons toggle-icon ms-auto">
+                    {{ isSubmenuOpen[child.title] ? 'expand_more' : 'chevron_right' }}
+                  </i>
+                </span>
+
+                @if (isSubmenuOpen[child.title]) {
+                <ul class="submenu ps-3">
+                  @for (grandChild of child.subMenu; track grandChild.title) {
+                  <li class="submenu-item" [ngClass]="{ 'has-children': grandChild.subMenu?.length }">
+
+                    @if (!grandChild.subMenu?.length) {
+                    <a [routerLink]="grandChild.url" class="d-flex align-items-center">
+                      <i class="{{ grandChild.icon }} me-2"></i> {{ grandChild.title }}
+                    </a>
+                    } @else {
+                    <div class="dropdown">
+                      <span class="dropdown-label d-flex align-items-center" (click)="toggleSubmenu(grandChild)">
+                        <i class="{{ grandChild.icon }} me-2"></i>
+                        {{ grandChild.title }}
+                        <i class="material-icons toggle-icon ms-auto">
+                          {{ isSubmenuOpen[grandChild.title] ? 'expand_more' : 'chevron_right' }}
+                        </i>
+                      </span>
+
+                      @if (isSubmenuOpen[grandChild.title]) {
+                      <ul class="submenu ps-3">
+                        @for (greatGrandChild of grandChild.subMenu; track greatGrandChild.title) {
+                        <li class="submenu-item">
+                          <a [routerLink]="greatGrandChild.url" class="d-flex align-items-center">
+                            <i class="{{ greatGrandChild.icon }} me-2"></i> {{ greatGrandChild.title }}
+                          </a>
+                        </li>
+                        }
+                      </ul>
+                      }
+                    </div>
+                    }
+                  </li>
+                  }
+                </ul>
                 }
-                @if(item.children){<span class="text-dark">{{ item.label }}</span>}
-            </div>
-            @if(item.children){<div>
-                <i class="fa" [ngClass]="isSubmenuOpen[item.label] ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
-            </div>
+              </div>
+              }
+            </li>
             }
+          </ul>
+          }
         </div>
-        @if(item.children && isSubmenuOpen[item.label]){<ul class="list-unstyled ps-4">
-            <ng-container *ngFor="let child of item.children">
-                <ng-template [ngTemplateOutlet]="renderMenu"
-                    [ngTemplateOutletContext]="{ $implicit: child }"></ng-template>
-            </ng-container>
-        </ul>
         }
-    </li>
-</ng-template>
+      </li>
+      }
+    </ul>
+  </div>
+</div>
+<!-- MOBILE SIDEBAR --><!-- MOBILE SIDEBAR -->

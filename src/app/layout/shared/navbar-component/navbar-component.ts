@@ -29,51 +29,33 @@ export interface MenuItem {
 export class NavbarComponent implements OnInit {
   menuList: MenuItem[] = [];
   showNavbar: boolean = false;
-  private menuItemsSubject = new BehaviorSubject<any[]>([]);
+  menuItemsSubject = new BehaviorSubject<any[]>([]);
   menuItems$ = this.menuItemsSubject.asObservable();
   isMenuLoaded: any;
-  constructor(private router: Router, private menuService: MenuService, private _cdr: ChangeDetectorRef, private commonService: CommonService) { }
-  ngOnInit(): void { 
-        this.loadMenuIfNeeded() 
+  showNotifications = false;
+  isSubmenuOpen: { [key: string]: boolean } = {};
+  notifications = notifications
+  menuItems: MenuItem[] = this.menuList
+  constructor(private router: Router, private menuService: MenuService, private _cdr: ChangeDetectorRef, private commonService: CommonService) {
+    this.menuItems$ = this.menuService.menuItems$;
+  }
+
+  ngOnInit(): void {
+
   }
 
   navigate(path: string) {
     this.router.navigate([path]);
   }
-  loadMenuIfNeeded(): void {
-    if (!this.isMenuLoaded) {
-      this.isMenuLoaded = true;
-      this.commonService.getRoleWiseMenu().subscribe((response: any[]) => {
-        if (response) {
-          this.menuItems = response
-          const currentUrl = this.router.url;
-          const allMenus = flattenMenu(response); 
-          if (!hasUserAccessToMenu(currentUrl, allMenus)) {
-            //this.router.navigate(['/page/unauthorized-access']); 
-          }
 
-          this.setMenuItems(response);
-          this._cdr.detectChanges()
-        }
-      });
-    }
+  toggleSubmenu(item: any) {
+    this.isSubmenuOpen[item.title] = !this.isSubmenuOpen[item.title];
   }
-  setMenuItems(items: any[]) {
-    this.menuItemsSubject.next(items);
-  }
-  showNotifications = false;
-  isSubmenuOpen: { [key: string]: boolean } = {};
-  notifications = notifications
-  menuItems: MenuItem[] = this.menuList
 
   toggle(item: any): void {
     item.expanded = !item.expanded;
   }
-  toggleSubmenu(item: any) {
-    if (item.children) {
-      this.isSubmenuOpen[item.label] = !this.isSubmenuOpen[item.label];
-    } 
-  }
+ 
   getUnreadCount(): number {
     return this.notifications.filter(n => !n.read).length;
   }
