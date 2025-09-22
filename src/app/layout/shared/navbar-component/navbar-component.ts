@@ -47,6 +47,31 @@ export class NavbarComponent implements OnInit {
   navigate(path: string) {
     this.router.navigate([path]);
   }
+  loadMenuIfNeeded(): void {
+    if (!this.isMenuLoaded) {
+      this.isMenuLoaded = true;
+      this.commonService.getRoleWiseMenu().subscribe((response: any[]) => {
+        if (response) {
+          this.menuItems = response
+          const currentUrl = this.router.url;
+          const allMenus = flattenMenu(response); 
+          if (!hasUserAccessToMenu(currentUrl, allMenus)) {
+            //this.router.navigate(['/page/unauthorized-access']); 
+          }
+
+          this.setMenuItems(response);
+          this._cdr.detectChanges()
+        }
+      });
+    }
+  }
+  setMenuItems(items: any[]) {
+    this.menuItemsSubject.next(items);
+  }
+  // showNotifications = false;
+  // isSubmenuOpen: { [key: string]: boolean } = {};
+  // notifications = notifications
+  // menuItems: MenuItem[] = this.menuList
 
   toggleSubmenu(item: any) {
     this.isSubmenuOpen[item.title] = !this.isSubmenuOpen[item.title];
