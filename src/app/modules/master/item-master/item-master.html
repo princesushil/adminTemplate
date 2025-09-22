@@ -1,0 +1,200 @@
+<div class="section mt-5">
+    <h3 class="mb-4">Item Master</h3>
+    <div class="container-fluid mt-4">
+        <div class="card-custom">
+
+            <!-- Form -->
+            <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="row g-4">
+
+                <!-- Item Code -->
+                <div class="col-md-3">
+                    <label>Item Code</label>
+                    <!-- <input type="text" class="form-control" formControlName="itemCode" placeholder="Item Code"> -->
+                    <input type="text" id="itemCode" autocomplete="off" class="form-control" formControlName="itemCode"
+                        name="itemCode" [ngClass]="{ 'is-invalid': itemForm.get('itemCode')?.invalid && isSubmitted }"
+                        placeholder="Enter Item Code" />
+                    @if (itemForm.get('itemCode')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Item Code is required.</div>
+                    }
+                    @if (itemForm.get('itemCode')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Item Name -->
+                <div class="col-md-3">
+                    <label>Item Name</label>
+                    <!-- <input type="text" class="form-control" formControlName="itemName" placeholder="Enter item name"> -->
+                    <input type="text" id="itemName" autocomplete="off" class="form-control" formControlName="itemName"
+                        name="itemName" [ngClass]="{ 'is-invalid': itemForm.get('itemName')?.invalid && isSubmitted }"
+                        placeholder="Enter Item Name" />
+                    @if (itemForm.get('itemCode')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Item Name is required.</div>
+                    }
+                    @if (itemForm.get('itemCode')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Category -->
+                <div class="col-md-3">
+                    <label>Category</label>
+                    <!-- <select class="form-select" formControlName="category"
+                        [ngClass]="{ 'is-invalid': itemForm.get('category')?.invalid && isSubmitted }">
+                        <option value="">Select category</option>
+                        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+                    </select>
+                    @if (itemForm.get('category')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Category is required.</div>
+                    } -->
+                    <ng-select [items]="categories" bindLabel="label" bindValue="value" placeholder="Select Category"
+                        formControlName="category" class="ng-select" name="category"
+                        [ngClass]="{ 'is-invalid': itemForm.get('category')?.invalid && isSubmitted }"></ng-select>
+                    @if (itemForm.get('category')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Category is required.</div>
+                    }
+                </div>
+
+                <!-- Opening Stock -->
+                <div class="col-md-3">
+                    <label>Opening Stock</label>
+                    <!-- <input type="number" class="form-control" formControlName="openingStock" min="0"> -->
+                    <input type="number" id="openingStock" class="form-control" formControlName="openingStock"
+                        name="openingStock"
+                        [ngClass]="{ 'is-invalid': itemForm.get('openingStock')?.invalid && isSubmitted }"
+                        placeholder="Enter Opening Stock" />
+                    @if (itemForm.get('openingStock')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Opening Stock is required.</div>
+                    }
+                </div>
+
+                <!-- Opening Stock As On -->
+                <div class="col-md-3">
+                    <label>Opening Stock As On</label>
+                    <!-- <input type="date" class="form-control" formControlName="openingStockAsOn"> -->
+                    <input type="date" id="openingStockAsOn" class="form-control" formControlName="openingStockAsOn"
+                        name="openingStockAsOn"
+                        [ngClass]="{ 'is-invalid': itemForm.get('openingStockAsOn')?.invalid && isSubmitted }"
+                        placeholder="Enter Opening Stock On" />
+                    @if (itemForm.get('openingStock')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Opening Stock On is required.</div>
+                    }
+                </div>
+
+                <!-- Item Stock -->
+                <div class="col-md-3">
+                    <label>Item Stock</label>
+                    <!-- <input type="number" class="form-control" formControlName="itemStock" min="0"> -->
+                    <input type="number" id="itemStock" class="form-control" formControlName="itemStock"
+                        name="itemStock"
+                        [ngClass]="{ 'is-invalid': itemForm.get('openingStock')?.invalid && isSubmitted }"
+                        placeholder="Enter Item Stock " />
+                    @if (itemForm.get('itemStock')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Item Stock is required.</div>
+                    }
+                </div>
+
+                <!-- Per Unit Price -->
+                <div class="col-md-3">
+                    <label>Per Unit Price</label>
+                    <!-- <input type="number" class="form-control" formControlName="perUnitPrice" min="0"> -->
+                    <input type="number" id="perUnitPrice" class="form-control" formControlName="perUnitPrice"
+                        name="perUnitPrice"
+                        [ngClass]="{ 'is-invalid': itemForm.get('perUnitPrice')?.invalid && isSubmitted }"
+                        placeholder="Enter Per Unit Price " />
+                    @if (itemForm.get('perUnitPrice')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Per Unit Price is required.</div>
+                    }
+                </div>
+
+                <!-- Ledger -->
+                <div class="col-md-3">
+                    <label>Ledger</label>
+                    <!-- <select class="form-select" formControlName="ledgerId">
+                        <option value="">Select Ledger</option>
+                        <option *ngFor="let l of ledgers" [value]="l">{{ l }}</option>
+                    </select> -->
+                    <ng-select [items]="ledgers" bindLabel="label" bindValue="value" placeholder="Select Ledgers"
+                        formControlName="ledgerId" class="ng-select" name="ledgerId"
+                        [ngClass]="{ 'is-invalid': itemForm.get('ledgerId')?.invalid && isSubmitted }"></ng-select>
+                    @if (itemForm.get('ledgerId')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Ledgers is required.</div>
+                    }
+                </div>
+
+                <!-- HSN No -->
+                <div class="col-md-3 mb-3">
+                    <label for="hsnNo" class="form-label">HSN No</label>
+                    <input type="text" id="hsnNo" class="form-control" formControlName="hsnNo"
+                        placeholder="Enter HSN Number"
+                        [ngClass]="{ 'is-invalid': itemForm.get('hsnNo')?.invalid && isSubmitted }" />
+                    @if (itemForm.get('hsnNo')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">HSN No is required.</div>
+                    }
+                    @if (itemForm.get('hsnNo')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only letters and numbers allowed.</div>
+                    }
+                </div>
+
+                <!-- <div class="col-md-3 d-flex align-items-center">
+                    <label class="me-2">Is Active</label>
+                    <input type="checkbox" formControlName="isActive">
+                </div> -->
+
+                <!-- Status -->
+                <div class="col-md-6 mb-3" *ngIf="isEditMode">
+                    <label class="me-2">Status</label>
+                    <mat-radio-group formControlName="isActive" class="d-flex gap-3">
+                        <mat-radio-button [value]="true">Active</mat-radio-button>
+                        <mat-radio-button [value]="false">Inactive</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <div class="card-action d-flex justify-content-center align-items-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        {{ isEditMode ? 'Update' : 'Add' }} Item
+                    </button>
+                    <button type="button" class="btn btn-danger me-2" (click)="resetForm()"> Cancel </button>
+                    <!-- <button type="button" class="btn btn-danger me-2" (click)="showItems()"> Show List </button> -->
+                    <button type="button" class="btn btn-success" (click)="toggleList()">
+                        {{ showList ? 'Hide List' : 'Show List' }}
+                    </button>
+                </div>
+            </form>
+
+            <hr />
+
+            <!-- Item List -->
+            <div class="list-container mt-4" *ngIf="showList">
+                <h3>Items</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Stock</th>
+                            <th>Price</th>
+                            <th>Active</th>
+                            <th>HsnNo</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <td>{{ item.itemCode }}</td>
+                            <td>{{ item.itemName }}</td>
+                            <td>{{ item.itemStock }}</td>
+                            <td>{{ item.perUnitPrice }}</td>
+                            <td>{{ item.isActive ? 'Yes' : 'No' }}</td>
+                            <td>{{item.hsnNo}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="onEdit(item)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

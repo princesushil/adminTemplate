@@ -1,0 +1,310 @@
+<div class="section mt-5">
+    <h3 class="mb-4">Machine Master</h3>
+    <div class="container-fluid mt-4">
+        <div class="card-custom">
+
+            <!-- Form -->
+            <form [formGroup]="machineForm" (ngSubmit)="onSubmit()" class="row g-4">
+
+                <!-- Brand Name -->
+                    <div class="col-md-3">
+                        <label>Brand Name</label>
+                        <input type="text" class="form-control" formControlName="brandName"
+                            [ngClass]="{ 'is-invalid': machineForm.get('brandName')?.invalid && (machineForm.get('brandName')?.touched || machineForm.get('brandName')?.dirty) }"
+                            placeholder="Enter Brand Name" />
+                    
+                        @if (machineForm.get('brandName')?.errors?.['required'] && (machineForm.get('brandName')?.touched ||
+                        machineForm.get('brandName')?.dirty)) {
+                        <div class="invalid-feedback">Brand Name is required.</div>
+                        }
+                    
+                        @if (machineForm.get('brandName')?.errors?.['pattern'] && (machineForm.get('brandName')?.touched ||
+                        machineForm.get('brandName')?.dirty)) {
+                        <div class="invalid-feedback">Only letters allowed and no extra spaces.</div>
+                        }
+                    </div>
+
+
+                <!-- HP/KW -->
+                <div class="col-md-3">
+                    <label>HP/KW</label>
+                    <input type="number" class="form-control" formControlName="hpKw" min="0" placeholder="Enter HP/KW">
+                </div>
+
+                <!-- Slot -->
+                <div class="col-md-3">
+                    <label>Slot</label>
+                    <input type="number" class="form-control" formControlName="slot" min="0" placeholder="Enter Slot">
+                </div>
+
+                <!-- RPM -->
+                <div class="col-md-3">
+                    <label>RPM</label>
+                    <!-- <input type="text" class="form-control" formControlName="rpm"> -->
+                    <input type="text" class="form-control" formControlName="rpm"
+                        [ngClass]="{ 'is-invalid': machineForm.get('rpm')?.invalid && isSubmitted }"
+                        placeholder="Enter rpm " />
+                    @if (machineForm.get('rpm')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">rpm is required.</div>
+                    }
+                    @if (machineForm.get('rpm')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">only number input allow and and no extra spaces.</div>
+                    }
+                </div>
+
+                <!-- Pich -->
+                <div class="col-md-3">
+                    <label>Pitch</label>
+                    <!-- <input type="text" class="form-control" formControlName="pich"> -->
+                    <input type="text" class="form-control" formControlName="pitch"
+                        [ngClass]="{ 'is-invalid': machineForm.get('pitch')?.invalid && isSubmitted }"
+                        placeholder="Enter Pitch " />
+                    @if (machineForm.get('pitch')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Pitch is required.</div>
+                    }
+                    @if (machineForm.get('pitch')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Gauge -->
+                <div class="col-md-3">
+                    <label>Gauge</label>
+                    <!-- <input type="text" class="form-control" formControlName="gauge"> -->
+                    <input type="text" class="form-control" formControlName="gauge"
+                        [ngClass]="{ 'is-invalid': machineForm.get('gauge')?.invalid && isSubmitted }"
+                        placeholder="Enter Gauge " />
+                    @if (machineForm.get('gauge')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Gauge is required.</div>
+                    }
+                    @if (machineForm.get('gauge')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Alternate Gauge -->
+                <div class="col-md-3">
+                    <label>Alternate Gauge</label>
+                    <!-- <input type="text" class="form-control" formControlName="alterGauge"> -->
+                    <input type="text" class="form-control" formControlName="alterGauge"
+                        [ngClass]="{ 'is-invalid': machineForm.get('alterGauge')?.invalid && isSubmitted }"
+                        placeholder="Enter Alter Gauge " />
+                    @if (machineForm.get('alterGauge')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Alter Gauge is required.</div>
+                    }
+                    @if (machineForm.get('alterGauge')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Turn -->
+                <div class="col-md-3">
+                    <label>Turn</label>
+                    <input type="number" class="form-control" formControlName="turn" min="0" placeholder="Enter Turn">
+                </div>
+
+                <!-- Coil Measurement -->
+                <div class="col-md-3">
+                    <label>Coil Measurement</label>
+                    <!-- <input type="text" class="form-control" formControlName="coilMeasurment"> -->
+                    <input type="text" class="form-control" formControlName="coilMeasurement"
+                        [ngClass]="{ 'is-invalid': machineForm.get('coilMeasurement')?.invalid && isSubmitted }"
+                        placeholder="Enter Coil Measurement " />
+                    @if (machineForm.get('coilMeasurement')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Coil Measurement is required.</div>
+                    }
+                </div>
+
+                <!-- Winding Type -->
+                <div class="col-md-3">
+                    <label>Winding Type</label>
+                    <!-- <select class="form-select" formControlName="windingType">
+                        <option value="">Select Winding Type</option>
+                        <option *ngFor="let wt of windingTypes" [value]="wt">{{ wt }}</option>
+                    </select> -->
+                    <ng-select [items]="windingTypes" bindLabel="label" bindValue="value" placeholder="Select State"
+                        formControlName="windingType" class="ng-select" name="windingType"
+                        [ngClass]="{ 'is-invalid': machineForm.get('windingType')?.invalid && isSubmitted }"></ng-select>
+                    @if (machineForm.get('windingType')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Winding Type is required.</div>
+                    }
+                </div>
+
+                <!-- Connection Type -->
+                <div class="col-md-3">
+                    <label>Connection Type</label>
+                    <!-- <input type="text" class="form-control" formControlName="connectionType"> -->
+                    <input type="text" class="form-control" formControlName="connectionType"
+                        [ngClass]="{ 'is-invalid': machineForm.get('connectionType')?.invalid && isSubmitted }"
+                        placeholder="Enter Connection Type " />
+                    @if (machineForm.get('connectionType')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Connection Type is required.</div>
+                    }
+                    @if (machineForm.get('connectionType')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Stator Lobby -->
+                <div class="col-md-3">
+                    <label>Stator Lobby</label>
+                    <!-- <input type="text" class="form-control" formControlName="statorLobbby"> -->
+                    <input type="text" class="form-control" formControlName="statorLobby"
+                        [ngClass]="{ 'is-invalid': machineForm.get('statorLobby')?.invalid && isSubmitted }"
+                        placeholder="Enter Stator Lobby " />
+                    @if (machineForm.get('statorLobby')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Stator Lobby is required.</div>
+                    }
+                    @if (machineForm.get('statorLobby')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Coil Group Weight -->
+                <div class="col-md-3">
+                    <label>Coil Group Weight</label>
+                    <!-- <input type="text" class="form-control" formControlName="coilGroupWeight"> -->
+                    <input type="number" class="form-control" formControlName="coilGroupWeight"
+                        [ngClass]="{ 'is-invalid': machineForm.get('coilGroupWeight')?.invalid && isSubmitted }"
+                        placeholder="Enter Coil GroupWeight " />
+                    @if (machineForm.get('coilGroupWeight')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Coil GroupWeight is required.</div>
+                    }
+                </div>
+
+                <!-- Total Wire Weight -->
+                <div class="col-md-3">
+                    <label>Total Wire Weight</label>
+                    <!-- <input type="text" class="form-control" formControlName="totalWireWeight"> -->
+                    <input type="number" class="form-control" formControlName="totalWireWeight"
+                        [ngClass]="{ 'is-invalid': machineForm.get('totalWireWeight')?.invalid && isSubmitted }"
+                        placeholder="Enter Total WireWeight " />
+                    @if (machineForm.get('totalWireWeight')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Total WireWeight is required.</div>
+                    }
+                </div>
+
+                <!-- Phase Size -->
+                <div class="col-md-3">
+                    <label>Phase Size</label>
+                    <!-- <input type="text" class="form-control" formControlName="phaseSize"> -->
+                    <input type="text" class="form-control" formControlName="phaseSize"
+                        [ngClass]="{ 'is-invalid': machineForm.get('phaseSize')?.invalid && isSubmitted }"
+                        placeholder="Enter Phase Size " />
+                    @if (machineForm.get('phaseSize')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Phase Size is required.</div>
+                    }
+                </div>
+
+                <!-- Ampere -->
+                <div class="col-md-3">
+                    <label>Amperes</label>
+                    <!-- <input type="text" class="form-control" formControlName="ampere"> -->
+                    <input type="number" class="form-control" formControlName="amperes"
+                        [ngClass]="{ 'is-invalid': machineForm.get('amperes')?.invalid && isSubmitted }"
+                        placeholder="Enter Amperes " />
+                    @if (machineForm.get('amperes')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Amperes is required.</div>
+                    }
+                </div>
+
+                <!-- Winding Date -->
+                <div class="col-md-3">
+                    <label>Winding Date</label>
+                    <input type="date" class="form-control" formControlName="windingDate">
+                </div>
+
+                <!-- GP/DC -->
+                <div class="col-md-3">
+                    <label>GP/DC</label>
+                    <!-- <input type="text" class="form-control" formControlName="gpOC"> -->
+                    <input type="text" class="form-control" formControlName="gpDc"
+                        [ngClass]="{ 'is-invalid': machineForm.get('gpDc')?.invalid && isSubmitted }"
+                        placeholder="Enter G.P.DC " />
+                    @if (machineForm.get('gpDc')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">G.P.DC is required.</div>
+                    }
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6 mb-3" *ngIf="isEditMode">
+                    <label class="me-2">Status</label>
+                    <mat-radio-group formControlName="isActive" class="d-flex gap-3">
+                        <mat-radio-button [value]="true">Active</mat-radio-button>
+                        <mat-radio-button [value]="false">Inactive</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                <div class="card-action d-flex justify-content-center align-items-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        {{ isEditMode ? 'Update' : 'Add' }} Machine
+                    </button>
+                    <button type="button" class="btn btn-danger me-2" (click)="resetForm()">Cancel</button>
+                    <button type="button" class="btn btn-success" (click)="toggleList()">
+                        {{ showList ? 'Hide List' : 'Show List' }}
+                    </button>
+                </div>
+            </form>
+
+            <hr />
+
+            <!-- Machine List -->
+            <div class="list-container mt-4" *ngIf="showList">
+                <h3>Machines</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Branch</th>
+                            <th>HP/KW</th>
+                            <th>Slot</th>
+                            <th>RPM</th>
+                            <th>Pitch</th>
+                            <th>Gauge</th>
+                            <th>Alternate Gauge</th>
+                            <th>Turn</th>
+                            <th>Coil Measurement</th>
+                            <th>Winding Type</th>
+                            <th>Connection Type</th>
+                            <th>Stator Lobby</th>
+                            <th>Coil Group Weight</th>
+                            <th>Total Wire Weight</th>
+                            <th>Phase Size</th>
+                            <th>Ampere</th>
+                            <th>Winding Date</th>
+                            <th>GP/DC</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let machine of machines">
+                            <td>{{ machine.brandName }}</td>
+                            <td>{{ machine.hpKw }}</td>
+                            <td>{{ machine.slot }}</td>
+                            <td>{{ machine.rpm }}</td>
+                            <td>{{ machine.pitch }}</td>
+                            <td>{{ machine.gauge }}</td>
+                            <td>{{ machine.alterGauge}}</td>
+                            <td>{{ machine.turn }}</td>
+                            <td>{{ machine.coilMeasurement }}</td>
+                            <td>{{ getWindingTypeName(machine.windingType) }}</td>
+                            <td>{{machine.connectionType}}</td>
+                            <td>{{machine.statorLobby}}</td>
+                            <td>{{ machine.coilGroupWeight }}</td>
+                            <td>{{ machine.totalWireWeight }}</td>
+                            <td>{{ machine.phaseSize }}</td>
+                            <td>{{ machine.amperes }}</td>
+                            <td>{{ machine.windingDate }}</td>
+                            <td>{{ machine.gpDc }}</td>
+                            <td>{{ machine.isActive }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="onEdit(machine)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
