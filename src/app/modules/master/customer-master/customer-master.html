@@ -5,20 +5,25 @@
       <!-- Form -->
       <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="row g-4">
 
+        <!-- Customer Name -->
         <div class="col-md-3">
           <label class="form-label">Customer Name</label>
           <!-- <input type="text" class="form-control" formControlName="cust_Name" placeholder="Enter customer name"> -->
           <input type="text" id="cust_Name" autocomplete="off" class="form-control" formControlName="cust_Name"
-            name="cust_Name" [ngClass]="{ 'is-invalid': customerForm.get('cust_Name')?.invalid && isSubmitted }"
+            name="cust_Name"
+            [ngClass]="{ 'is-invalid': customerForm.get('cust_Name')?.invalid && (customerForm.get('cust_Name')?.touched || customerForm.get('cust_Name')?.dirty) }"
             placeholder="Enter Customer Name" />
-          @if (customerForm.get('cust_Name')?.errors?.['required'] && isSubmitted) {
+          @if (customerForm.get('cust_Name')?.errors?.['required'] && (customerForm.get('cust_Name')?.touched ||
+          customerForm.get('cust_Name')?.dirty)) {
           <div class="invalid-feedback">Customer Name is required.</div>
           }
-          @if (customerForm.get('cust_Name')?.errors?.['pattern'] && isSubmitted ){
-          <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
+          @if (customerForm.get('cust_Name')?.errors?.['pattern'] && (customerForm.get('cust_Name')?.touched ||
+          customerForm.get('cust_Name')?.dirty)){
+          <div class="invalid-feedback">Only letters allowed and no multiple spaces.</div>
           }
         </div>
 
+        <!-- Email -->
         <div class="col-md-3">
           <label class="form-label">Email</label>
           <!-- <input type="email" class="form-control" formControlName="cust_Email" placeholder="Enter email"> -->
@@ -29,13 +34,14 @@
             @if (customerForm.get('cust_Email')?.errors?.['required']) {
             <small>Email is required</small>
             }
-            @if (customerForm.get('cust_Email')?.errors?.['email']) {
+            @if (customerForm.get('cust_Email')?.errors?.['pattern']) {
             <small>Enter a valid email address</small>
             }
           </div>
           }
         </div>
 
+        <!-- Phone Number -->
         <div class="col-md-3">
           <label class="form-label">Phone Number</label>
           <!-- <input type="text" class="form-control" formControlName="cust_PhoneNo" placeholder="Enter phone number"> -->
@@ -51,21 +57,24 @@
           }
         </div>
 
+        <!-- GST No -->
         <div class="col-md-3">
           <label class="form-label">GST No</label>
           <!-- <input type="text" class="form-control" formControlName="gstNo" placeholder="Enter GST number"> -->
           <input type="text" id="gstNo" autocomplete="off" class="form-control" formControlName="gstNo" name="gstNo"
-            [ngClass]="{ 'is-invalid': customerForm.get('gstNo')?.invalid && isSubmitted }"
+            [ngClass]="{ 'is-invalid': customerForm.get('gstNo')?.invalid && (customerForm.get('gstNo')?.touched || customerForm.get('gstNo')?.dirty) }"
             placeholder="Enter GST-NO" />
-          @if (customerForm.get('gstNo')?.errors?.['required'] && isSubmitted) {
+          @if (customerForm.get('gstNo')?.errors?.['required'] && (customerForm.get('gstNo')?.touched ||
+          customerForm.get('gstNo')?.dirty)) {
           <div class="invalid-feedback">GST Number is required.</div>
+          }
+          @if (customerForm.get('gstNo')?.errors?.['pattern'] && (customerForm.get('gstNo')?.touched ||
+          customerForm.get('gstNo')?.dirty)) {
+          <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
           }
         </div>
 
-        <!-- <div class="col-md-6">
-          <label>Address</label>
-          <textarea class="form-control" rows="2" formControlName="cust_Address" placeholder="Enter address"></textarea>
-        </div> -->
+        <!-- Address -->
         <div class="col-md-6">
           <label>Address</label>
           <textarea class="form-control" rows="2" formControlName="cust_Address" placeholder="Enter address"
@@ -75,18 +84,13 @@
           @if (customerForm.get('cust_Address')?.errors?.['required'] && isSubmitted) {
           <div class="invalid-feedback">Address is required.</div>
           }
-          @if (customerForm.get('cust_Address')?.errors?.['minlength'] && isSubmitted) {
-          <div class="invalid-feedback">Address must be at least 5 characters long.</div>
+          @if (customerForm.get('cust_Address')?.errors?.['pattern'] && isSubmitted) {
+          <div class="invalid-feedback">Address invalid enter valid email.</div>
           }
-          @if (customerForm.get('cust_Address')?.errors?.['maxlength'] && isSubmitted) {
+          <!-- @if (customerForm.get('cust_Address')?.errors?.['maxlength'] && isSubmitted) {
           <div class="invalid-feedback">Address cannot exceed 200 characters.</div>
-          }
+          } -->
         </div>
-
-        <!-- <div class="col-md-3 d-flex align-items-center">
-          <label class="me-2">Is Active</label>
-          <input type="checkbox" formControlName="isActive">
-        </div> -->
 
         <!-- Status -->
         <div class="col-md-6 mb-3" *ngIf="isEditMode">

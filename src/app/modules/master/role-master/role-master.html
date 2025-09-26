@@ -1,0 +1,87 @@
+<div class="section mt-5">
+    <h3 class="mb-4">Role Master</h3>
+    <div class="container-fluid mt-4">
+        <div class="card-custom">
+            <!-- Form -->
+            <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="row g-4">
+
+                <!-- Role Name -->
+                <div class="col-md-4">
+                    <label class="form-label">Role Name</label>
+                    <input type="text" id="role" autocomplete="off" class="form-control" formControlName="role"
+                        [ngClass]="{ 'is-invalid': roleForm.get('role')?.invalid && (roleForm.get('role')?.touched || roleForm.get('role')?.dirty) }"
+                        placeholder="Enter Role Name" />
+                    @if (roleForm.get('role')?.errors?.['required'] && (roleForm.get('role')?.touched ||
+                    roleForm.get('role')?.dirty)) {
+                    <div class="invalid-feedback">Role Name is required.</div>
+                    }
+                    @if (roleForm.get('role')?.errors?.['pattern'] && (roleForm.get('role')?.touched ||
+                    roleForm.get('role')?.dirty)) {
+                    <div class="invalid-feedback">Only letters allowed and no multiple spaces.</div>
+                    }
+                </div>
+
+                <!-- Description -->
+                <div class="col-md-8">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="2" formControlName="description"
+                        placeholder="Enter Description (optional)"
+                        [ngClass]="{ 'is-invalid': roleForm.get('description')?.invalid && isSubmitted }"></textarea>
+                    @if (roleForm.get('description')?.errors?.['maxlength'] && isSubmitted) {
+                    <div class="invalid-feedback">Description cannot exceed 200 characters.</div>
+                    }
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-6 mb-3" *ngIf="isEditMode">
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <mat-radio-group formControlName="isActive" class="d-flex gap-3">
+                            <mat-radio-button [value]="true">Active</mat-radio-button>
+                            <mat-radio-button [value]="false">Inactive</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <div class="card-action d-flex justify-content-center align-items-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        {{ isEditMode ? 'Update' : 'Add' }} Role
+                    </button>
+                    <button type="button" class="btn btn-danger me-2" (click)="resetForm()">Cancel</button>
+                    <button type="button" class="btn btn-success" (click)="toggleList()">
+                        {{ showList ? 'Hide List' : 'Show List' }}
+                    </button>
+                </div>
+            </form>
+
+            <hr />
+
+            <!-- Role List -->
+            <div class="list-container mt-4" *ngIf="showList">
+                <h3>Roles</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Role</th>
+                            <th>Description</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of roles">
+                            <td>{{ r.id }}</td>
+                            <td>{{ r.role }}</td>
+                            <td>{{ r.description }}</td>
+                            <td>{{ r.isActive ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="onEdit(r)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

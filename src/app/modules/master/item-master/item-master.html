@@ -11,12 +11,15 @@
                     <label>Item Code</label>
                     <!-- <input type="text" class="form-control" formControlName="itemCode" placeholder="Item Code"> -->
                     <input type="text" id="itemCode" autocomplete="off" class="form-control" formControlName="itemCode"
-                        name="itemCode" [ngClass]="{ 'is-invalid': itemForm.get('itemCode')?.invalid && isSubmitted }"
+                        name="itemCode"
+                        [ngClass]="{ 'is-invalid': itemForm.get('itemCode')?.invalid && (itemForm.get('itemCode')?.touched || itemForm.get('itemCode')?.dirty) }"
                         placeholder="Enter Item Code" />
-                    @if (itemForm.get('itemCode')?.errors?.['required'] && isSubmitted) {
+                    @if (itemForm.get('itemCode')?.errors?.['required'] && (itemForm.get('itemCode')?.touched ||
+                    itemForm.get('itemCode')?.dirty)) {
                     <div class="invalid-feedback">Item Code is required.</div>
                     }
-                    @if (itemForm.get('itemCode')?.errors?.['pattern'] && isSubmitted) {
+                    @if (itemForm.get('itemCode')?.errors?.['pattern'] && (itemForm.get('itemCode')?.touched ||
+                    itemForm.get('itemCode')?.dirty)) {
                     <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
                     }
                 </div>
@@ -26,13 +29,16 @@
                     <label>Item Name</label>
                     <!-- <input type="text" class="form-control" formControlName="itemName" placeholder="Enter item name"> -->
                     <input type="text" id="itemName" autocomplete="off" class="form-control" formControlName="itemName"
-                        name="itemName" [ngClass]="{ 'is-invalid': itemForm.get('itemName')?.invalid && isSubmitted }"
+                        name="itemName"
+                        [ngClass]="{ 'is-invalid': itemForm.get('itemName')?.invalid && (itemForm.get('itemName')?.touched || itemForm.get('itemName')?.dirty) }"
                         placeholder="Enter Item Name" />
-                    @if (itemForm.get('itemCode')?.errors?.['required'] && isSubmitted) {
+                    @if (itemForm.get('itemName')?.errors?.['required'] && (itemForm.get('itemName')?.touched ||
+                    itemForm.get('itemName')?.dirty)) {
                     <div class="invalid-feedback">Item Name is required.</div>
                     }
-                    @if (itemForm.get('itemCode')?.errors?.['pattern'] && isSubmitted) {
-                    <div class="invalid-feedback">Only letters & numbers allowed and no multiple spaces.</div>
+                    @if (itemForm.get('itemName')?.errors?.['pattern'] && (itemForm.get('itemName')?.touched ||
+                    itemForm.get('itemName')?.dirty)) {
+                    <div class="invalid-feedback">Only letters allowed and no multiple spaces.</div>
                     }
                 </div>
 
@@ -47,7 +53,7 @@
                     @if (itemForm.get('category')?.errors?.['required'] && isSubmitted) {
                     <div class="invalid-feedback">Category is required.</div>
                     } -->
-                    <ng-select [items]="categories" bindLabel="label" bindValue="value" placeholder="Select Category"
+                    <ng-select [items]="categories" bindLabel="label" bindValue="categoryId" placeholder="Select Category"
                         formControlName="category" class="ng-select" name="category"
                         [ngClass]="{ 'is-invalid': itemForm.get('category')?.invalid && isSubmitted }"></ng-select>
                     @if (itemForm.get('category')?.errors?.['required'] && isSubmitted) {
@@ -110,11 +116,7 @@
                 <!-- Ledger -->
                 <div class="col-md-3">
                     <label>Ledger</label>
-                    <!-- <select class="form-select" formControlName="ledgerId">
-                        <option value="">Select Ledger</option>
-                        <option *ngFor="let l of ledgers" [value]="l">{{ l }}</option>
-                    </select> -->
-                    <ng-select [items]="ledgers" bindLabel="label" bindValue="value" placeholder="Select Ledgers"
+                    <ng-select [items]="ledgers" bindLabel="label" bindValue="ledgerId" placeholder="Select Ledgers"
                         formControlName="ledgerId" class="ng-select" name="ledgerId"
                         [ngClass]="{ 'is-invalid': itemForm.get('ledgerId')?.invalid && isSubmitted }"></ng-select>
                     @if (itemForm.get('ledgerId')?.errors?.['required'] && isSubmitted) {
@@ -127,12 +129,14 @@
                     <label for="hsnNo" class="form-label">HSN No</label>
                     <input type="text" id="hsnNo" class="form-control" formControlName="hsnNo"
                         placeholder="Enter HSN Number"
-                        [ngClass]="{ 'is-invalid': itemForm.get('hsnNo')?.invalid && isSubmitted }" />
-                    @if (itemForm.get('hsnNo')?.errors?.['required'] && isSubmitted) {
+                        [ngClass]="{ 'is-invalid': itemForm.get('hsnNo')?.invalid && (itemForm.get('hsnNo')?.touched || itemForm.get('hsnNo')?.dirty) }" />
+                    @if (itemForm.get('hsnNo')?.errors?.['required'] && (itemForm.get('hsnNo')?.touched ||
+                    itemForm.get('hsnNo')?.dirty)) {
                     <div class="invalid-feedback">HSN No is required.</div>
                     }
-                    @if (itemForm.get('hsnNo')?.errors?.['pattern'] && isSubmitted) {
-                    <div class="invalid-feedback">Only letters and numbers allowed.</div>
+                    @if (itemForm.get('hsnNo')?.errors?.['pattern'] && (itemForm.get('hsnNo')?.touched ||
+                    itemForm.get('hsnNo')?.dirty)) {
+                    <div class="invalid-feedback">Only letters and numbers allowed and no multiple spaces.</div>
                     }
                 </div>
 
@@ -176,6 +180,7 @@
                             <th>Price</th>
                             <th>Active</th>
                             <th>HsnNo</th>
+                            <th>Ledger</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -187,6 +192,7 @@
                             <td>{{ item.perUnitPrice }}</td>
                             <td>{{ item.isActive ? 'Yes' : 'No' }}</td>
                             <td>{{item.hsnNo}}</td>
+                            <td>{{item.ledgerId}}</td>
                             <td>
                                 <button class="btn btn-sm btn-warning" (click)="onEdit(item)">Edit</button>
                             </td>

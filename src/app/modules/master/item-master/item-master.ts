@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ItemMasterService } from '../services/item-master';
 import { ItemMasterModel } from '../models/item-master-model';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorsService } from '../../../services/validators.service.ts';
+import { AuthService } from '../../../cores/services/authService';
 
 @Component({
   selector: 'app-item-master',
@@ -21,29 +23,32 @@ export class ItemMasterComponent implements OnInit {
   // dropdowns
   categories = [
     // 'Electronics', 'Furniture', 'Stationery'
-    { label: 'Electronics', value: 'Electronics' },
-    { label: 'Furniture', value: 'Furniture' },
-    { label: 'Stationery', value: 'Stationery' },
+    { label: 'Electronics', categoryId: 'Electronics' },
+    { label: 'Furniture', categoryId: 'Furniture' },
+    { label: 'Stationery', categoryId: 'Stationery' },
   ];
   ledgers = [
     // 'Ledger A', 'Ledger B', 'Ledger C'
-    { label: 'Ledger A', value: 'Ledger A' },
-    { label: 'Ledger B', value: 'Ledger B' },
-    { label: 'Ledger C', value: 'Ledger C' },
+    { label: 'Ledger A', ledgerId: 1 },
+    { label: 'Ledger B', ledgerId: 2 },
+    { label: 'Ledger C', ledgerId: 3},
   ];
 
   constructor(
     private fb: FormBuilder,
     private itemService: ItemMasterService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _validationService: ValidatorsService,
+    private _authService: AuthService
+
 
   ) { }
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
       id: [0],
-      itemCode: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
-      itemName: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
+      itemCode: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
+      itemName: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
       category: [null, Validators.required],
       openingStock: [, [Validators.required, Validators.min(0)]],
       openingStockAsOn: [new Date().toISOString().substring(0, 10), Validators.required],
@@ -51,10 +56,10 @@ export class ItemMasterComponent implements OnInit {
       perUnitPrice: [, [Validators.required, Validators.min(0)]],
       isActive: [true],
       ledgerId: [null, Validators.required],
-      hsnNo: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]+$/)]],
+      hsnNo: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
     });
   }
-  // Load all items
+
   // showItems(){
   //   this.loadItems();
   // }
@@ -98,7 +103,7 @@ export class ItemMasterComponent implements OnInit {
       this.itemMasterModel.perUnitPrice = this.itemForm.value.perUnitPrice;
       this.itemMasterModel.isActive = this.itemForm.value.isActive;
       this.itemMasterModel.ledgerId = this.getLedgerId(this.itemForm.value.ledgerId);
-      this.itemMasterModel.createdBy = "Admin";
+      this.itemMasterModel.createdBy = this._authService.currentUser.Id
       this.itemMasterModel.hsnNo = this.itemForm.value.hsnNo;
 
       if (this.isEditMode) {
@@ -172,8 +177,8 @@ export class ItemMasterComponent implements OnInit {
       itemStock: item.itemStock,
       perUnitPrice: item.perUnitPrice,
       isActive: item.isActive,
-      ledgerId: this.getLedgerName(item.ledgerId),
-      hsnNo: '',
+      ledgerId: item.ledgerId,//this.getLedgerName(item.ledgerId),
+      hsnNo: item.hsnNo,
     });
     this.isEditMode = true;
   }
