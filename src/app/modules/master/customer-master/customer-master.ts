@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomerMasterModel } from '../models/customer-master-model';
 import { CustomerMasterService } from '../services/customer-master-service';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorsService } from '../../../services/validators.service.ts';
+import { AuthService } from '../../../cores/services/authService';
 
 @Component({
   selector: 'app-customer-master',
@@ -23,17 +25,20 @@ export class CustomerMaster implements OnInit {
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerMasterService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _validationService: ValidatorsService,
+    private _authService :AuthService
+
   ) { }
 
   ngOnInit(): void {
     this.customerForm = this.fb.group({
       cust_Id: [0],
-      cust_Name: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
-      cust_Email: ['', [Validators.required, Validators.email]],
+      cust_Name: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
+      cust_Email: ['', [Validators.required, Validators.pattern(this._validationService.emailPattern)]],
       cust_PhoneNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      cust_Address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
-      gstNo: ['', Validators.required],
+      cust_Address: ['', [Validators.required, Validators.pattern(this._validationService.addressPattern)]],
+      gstNo: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
       isActive: [true],
     });
   }
@@ -53,7 +58,8 @@ export class CustomerMaster implements OnInit {
   }
 
   onSubmit() {
-    this.isSubmitted = true
+    debugger
+    this.isSubmitted = true;
     if (this.customerForm.valid) {
       this.customerModel = new CustomerMasterModel();
 
@@ -65,7 +71,8 @@ export class CustomerMaster implements OnInit {
       this.customerModel.cust_Address = this.customerForm.value.cust_Address;
       this.customerModel.gstNo = this.customerForm.value.gstNo;
       this.customerModel.isActive = this.customerForm.value.isActive;
-      this.customerModel.createdBy = "Admin";
+      this.customerModel.createdBy = this._authService.currentUser.Id;
+      console.log( this._authService.currentUser);
       if (this.isEditMode) {
         // UPDATE
         this.customerService.updateCustomer(this.customerModel).subscribe({

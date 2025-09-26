@@ -14,21 +14,21 @@ export class ItemMasterService {
 
   // ADD -> POST /api/ItemMaster
   addItem(data: ItemMasterModel): Observable<any> {
-    return this.http.post(`${environment.identityUrl}ItemMaster`, data, { headers: this.headers });
+    return this.http.post(`${environment.identityUrl}ItemMaster/Add`, data, { headers: this.headers });
   }
 
   // UPDATE -> PUT /api/ItemMaster/UpdateItem
   updateItem(data: ItemMasterModel): Observable<any> {
-    return this.http.put(`${environment.identityUrl}ItemMaster`, data, { headers: this.headers });
+    return this.http.put(`${environment.identityUrl}ItemMaster/Update`, data, { headers: this.headers });
   }
 
   // GET ALL -> GET /api/ItemMaster
   getAllItems(): Observable<ItemMasterModel[]> {
-    return this.http.get<ItemMasterModel[]>(`${environment.identityUrl}ItemMaster`, { headers: this.headers });
+    return this.http.get<ItemMasterModel[]>(`${environment.identityUrl}ItemMaster/GetAll`, { headers: this.headers });
   }
 
   // GET BY ID -> GET /api/ItemMaster/{id}
   getItemById(id: number): Observable<ItemMasterModel> {
-    return this.http.get<ItemMasterModel>(`${environment.identityUrl}ItemMaster/${id}`, { headers: this.headers });
+    return this.http.get<ItemMasterModel>(`${environment.identityUrl}ItemMaster/GetBy${id}`, { headers: this.headers });
   }
 }

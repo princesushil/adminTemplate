@@ -5,13 +5,19 @@ import { AuthGuard } from '../../cores/guards/auth-guard';
 import { ItemMasterComponent } from './item-master/item-master';
 import { CustomerMaster } from './customer-master/customer-master';
 import { MachineMaster } from './machine-master/machine-master';
+import { RoleMaster } from './role-master/role-master';
+import { RolewisemenuMaster } from './rolewisemenu-master/rolewisemenu-master';
+import { UserroleassignMaster } from './userroleassign-master/userroleassign-master';
 
 
 const routes: Routes = [
   { path: 'branch-master', component: BranchMaster, canActivate: [AuthGuard] },
   { path: 'item-master', component: ItemMasterComponent, canActivate: [AuthGuard] },
-  {path:  'customer-master',component: CustomerMaster,canActivate:[AuthGuard]},
-  {path:'machine-master',component:MachineMaster,canActivate:[AuthGuard]}
+  { path: 'customer-master', component: CustomerMaster, canActivate: [AuthGuard] },
+  { path: 'machine-master', component: MachineMaster, canActivate: [AuthGuard] },
+  { path:'role-master', component: RoleMaster, canActivate: [AuthGuard] },
+  { path:'rolewisemenu-master', component:RolewisemenuMaster, canActivate: [AuthGuard] },
+  { path:'userroleassign-master',component:UserroleassignMaster, canActivate:[AuthGuard] }
 ];
 
 

@@ -14,12 +14,11 @@ export class MachineMasterService {
   constructor(private http: HttpClient) { }
   // ADD -> POST /api/ItemMaster
   addMachine(data: MachineMasterModel): Observable<any> {
-    debugger
     return this.http.post(`${environment.identityUrl}MachineMaster/Add`, data, { headers: this.headers });
   }
 
   // UPDATE -> PUT /api/ItemMaster/UpdateItem
-  updateMachine(data: MachineMasterModel): Observable<any> {debugger
+  updateMachine(data: MachineMasterModel): Observable<any> {
     return this.http.put(`${environment.identityUrl}MachineMaster/Update`, data, { headers: this.headers });
   }
 

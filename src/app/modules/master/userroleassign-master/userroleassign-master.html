@@ -1,0 +1,85 @@
+<div class="section mt-5">
+    <h3 class="mb-4">User Role Assign Master</h3>
+    <div class="container-fluid mt-4">
+        <div class="card-custom">
+            <!-- Form -->
+            <form [formGroup]="userRoleAssignForm" (ngSubmit)="onSubmit()" class="row g-4">
+
+                <!-- User Dropdown -->
+                <div class="col-md-4">
+                    <label class="form-label">User</label>
+                    <ng-select [items]="users" bindLabel="label" bindValue="value" placeholder="Select User"
+                        formControlName="userId" class="ng-select" name="userId"
+                        [ngClass]="{ 'is-invalid': userRoleAssignForm.get('userId')?.invalid && isSubmitted }">
+                    </ng-select>
+                    @if (userRoleAssignForm.get('userId')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">User is required.</div>
+                    }
+                </div>
+
+                <!-- Role Dropdown -->
+                <div class="col-md-4">
+                    <label class="form-label">Role</label>
+                    <ng-select [items]="roles" bindLabel="label" bindValue="value" placeholder="Select Role"
+                        formControlName="roleId" [multiple]="true" class="ng-select" name="roleId"
+                        [ngClass]="{ 'is-invalid': userRoleAssignForm.get('roleId')?.invalid && isSubmitted }">
+                    </ng-select>
+                    @if (userRoleAssignForm.get('roleId')?.errors?.['required'] && isSubmitted) {
+                    <div class="invalid-feedback">Role is required.</div>
+                    }
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-4 mb-3" *ngIf="isEditMode">
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <mat-radio-group formControlName="isActive" class="d-flex gap-3">
+                            <mat-radio-button [value]="true">Active</mat-radio-button>
+                            <mat-radio-button [value]="false">Inactive</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="card-action d-flex justify-content-center align-items-center gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary me-2">
+                        {{ isEditMode ? 'Update' : 'Add' }} User Role Assign
+                    </button>
+                    <button type="button" class="btn btn-danger me-2" (click)="resetForm()">Cancel</button>
+                    <button type="button" class="btn btn-success" (click)="toggleList()">
+                        {{ showList ? 'Hide List' : 'Show List' }}
+                    </button>
+                </div>
+            </form>
+
+            <hr />
+
+            <!-- List -->
+            <div class="list-container mt-4" *ngIf="showList">
+                <h3>User Role Assigns</h3>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let u of userRoleAssigns">
+                            <td>{{ u.id }}</td>
+                            <td>{{ u.userId }}</td>
+                            <td>{{ u.roleId }}</td>
+                            <td>{{ u.isActive ? 'Yes' : 'No' }}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="onEdit(u)">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

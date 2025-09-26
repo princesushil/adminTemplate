@@ -7,22 +7,22 @@
             <form [formGroup]="machineForm" (ngSubmit)="onSubmit()" class="row g-4">
 
                 <!-- Brand Name -->
-                    <div class="col-md-3">
-                        <label>Brand Name</label>
-                        <input type="text" class="form-control" formControlName="brandName"
-                            [ngClass]="{ 'is-invalid': machineForm.get('brandName')?.invalid && (machineForm.get('brandName')?.touched || machineForm.get('brandName')?.dirty) }"
-                            placeholder="Enter Brand Name" />
-                    
-                        @if (machineForm.get('brandName')?.errors?.['required'] && (machineForm.get('brandName')?.touched ||
-                        machineForm.get('brandName')?.dirty)) {
-                        <div class="invalid-feedback">Brand Name is required.</div>
-                        }
-                    
-                        @if (machineForm.get('brandName')?.errors?.['pattern'] && (machineForm.get('brandName')?.touched ||
-                        machineForm.get('brandName')?.dirty)) {
-                        <div class="invalid-feedback">Only letters allowed and no extra spaces.</div>
-                        }
-                    </div>
+                <div class="col-md-3">
+                    <label>Brand Name</label>
+                    <input type="text" class="form-control" formControlName="brandName"
+                        [ngClass]="{ 'is-invalid': machineForm.get('brandName')?.invalid && (machineForm.get('brandName')?.touched || machineForm.get('brandName')?.dirty) }"
+                        placeholder="Enter Brand Name" />
+
+                    @if (machineForm.get('brandName')?.errors?.['required'] && (machineForm.get('brandName')?.touched ||
+                    machineForm.get('brandName')?.dirty)) {
+                    <div class="invalid-feedback">Brand Name is required.</div>
+                    }
+
+                    @if (machineForm.get('brandName')?.errors?.['pattern'] && (machineForm.get('brandName')?.touched ||
+                    machineForm.get('brandName')?.dirty)) {
+                    <div class="invalid-feedback">Only letters allowed and no extra spaces.</div>
+                    }
+                </div>
 
 
                 <!-- HP/KW -->
@@ -41,7 +41,7 @@
                 <div class="col-md-3">
                     <label>RPM</label>
                     <!-- <input type="text" class="form-control" formControlName="rpm"> -->
-                    <input type="text" class="form-control" formControlName="rpm"
+                    <input type="number" class="form-control" formControlName="rpm"
                         [ngClass]="{ 'is-invalid': machineForm.get('rpm')?.invalid && isSubmitted }"
                         placeholder="Enter rpm " />
                     @if (machineForm.get('rpm')?.errors?.['required'] && isSubmitted) {
@@ -57,42 +57,50 @@
                     <label>Pitch</label>
                     <!-- <input type="text" class="form-control" formControlName="pich"> -->
                     <input type="text" class="form-control" formControlName="pitch"
-                        [ngClass]="{ 'is-invalid': machineForm.get('pitch')?.invalid && isSubmitted }"
+                        [ngClass]="{ 'is-invalid': machineForm.get('pitch')?.invalid && (machineForm.get('pitch')?.touched || machineForm.get('pitch')?.dirty) }"
                         placeholder="Enter Pitch " />
-                    @if (machineForm.get('pitch')?.errors?.['required'] && isSubmitted) {
+                    @if (machineForm.get('pitch')?.errors?.['required'] && (machineForm.get('pitch')?.touched ||
+                    machineForm.get('pitch')?.dirty)) {
                     <div class="invalid-feedback">Pitch is required.</div>
                     }
-                    @if (machineForm.get('pitch')?.errors?.['pattern'] && isSubmitted) {
+                    @if (machineForm.get('pitch')?.errors?.['pattern'] && (machineForm.get('pitch')?.touched ||
+                    machineForm.get('pitch')?.dirty)) {
                     <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
                     }
                 </div>
 
-                <!-- Gauge -->
+                <!-- Gauge change-->
                 <div class="col-md-3">
                     <label>Gauge</label>
                     <!-- <input type="text" class="form-control" formControlName="gauge"> -->
                     <input type="text" class="form-control" formControlName="gauge"
-                        [ngClass]="{ 'is-invalid': machineForm.get('gauge')?.invalid && isSubmitted }"
+                        [ngClass]="{ 'is-invalid': machineForm.get('gauge')?.invalid && (machineForm.get('gauge')?.touched || machineForm.get('gauge')?.dirty) }"
                         placeholder="Enter Gauge " />
-                    @if (machineForm.get('gauge')?.errors?.['required'] && isSubmitted) {
+                    @if (machineForm.get('gauge')?.errors?.['required'] && (machineForm.get('gauge')?.touched ||
+                    machineForm.get('gauge')?.dirty)) {
                     <div class="invalid-feedback">Gauge is required.</div>
                     }
-                    @if (machineForm.get('gauge')?.errors?.['pattern'] && isSubmitted) {
+                    @if (machineForm.get('gauge')?.errors?.['pattern'] && (machineForm.get('gauge')?.touched ||
+                    machineForm.get('gauge')?.dirty)) {
                     <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
                     }
                 </div>
 
-                <!-- Alternate Gauge -->
+                <!-- Alternate Gauge change  -->
                 <div class="col-md-3">
                     <label>Alternate Gauge</label>
                     <!-- <input type="text" class="form-control" formControlName="alterGauge"> -->
                     <input type="text" class="form-control" formControlName="alterGauge"
-                        [ngClass]="{ 'is-invalid': machineForm.get('alterGauge')?.invalid && isSubmitted }"
+                        [ngClass]="{ 'is-invalid': machineForm.get('alterGauge')?.invalid && (machineForm.get('alterGauge')?.touched || machineForm.get('alterGauge')?.dirty) }"
                         placeholder="Enter Alter Gauge " />
-                    @if (machineForm.get('alterGauge')?.errors?.['required'] && isSubmitted) {
+                    @if (machineForm.get('alterGauge')?.errors?.['required'] && (machineForm.get('alterGauge')?.touched
+                    ||
+                    machineForm.get('alterGauge')?.dirty)) {
                     <div class="invalid-feedback">Alter Gauge is required.</div>
                     }
-                    @if (machineForm.get('alterGauge')?.errors?.['pattern'] && isSubmitted) {
+                    @if (machineForm.get('alterGauge')?.errors?.['pattern'] && (machineForm.get('alterGauge')?.touched
+                    ||
+                    machineForm.get('alterGauge')?.dirty)) {
                     <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
                     }
                 </div>
@@ -104,6 +112,7 @@
                 </div>
 
                 <!-- Coil Measurement -->
+                <!--string input-->
                 <div class="col-md-3">
                     <label>Coil Measurement</label>
                     <!-- <input type="text" class="form-control" formControlName="coilMeasurment"> -->
@@ -113,15 +122,14 @@
                     @if (machineForm.get('coilMeasurement')?.errors?.['required'] && isSubmitted) {
                     <div class="invalid-feedback">Coil Measurement is required.</div>
                     }
+                    @if (machineForm.get('coilMeasurement')?.errors?.['pattern'] && isSubmitted) {
+                    <div class="invalid-feedback">Only number input allow and no multiple spaces.</div>
+                    }
                 </div>
 
                 <!-- Winding Type -->
                 <div class="col-md-3">
                     <label>Winding Type</label>
-                    <!-- <select class="form-select" formControlName="windingType">
-                        <option value="">Select Winding Type</option>
-                        <option *ngFor="let wt of windingTypes" [value]="wt">{{ wt }}</option>
-                    </select> -->
                     <ng-select [items]="windingTypes" bindLabel="label" bindValue="value" placeholder="Select State"
                         formControlName="windingType" class="ng-select" name="windingType"
                         [ngClass]="{ 'is-invalid': machineForm.get('windingType')?.invalid && isSubmitted }"></ng-select>
@@ -135,12 +143,16 @@
                     <label>Connection Type</label>
                     <!-- <input type="text" class="form-control" formControlName="connectionType"> -->
                     <input type="text" class="form-control" formControlName="connectionType"
-                        [ngClass]="{ 'is-invalid': machineForm.get('connectionType')?.invalid && isSubmitted }"
+                        [ngClass]="{ 'is-invalid': machineForm.get('connectionType')?.invalid && (machineForm.get('connectionType')?.touched || machineForm.get('connectionType')?.dirty) }"
                         placeholder="Enter Connection Type " />
-                    @if (machineForm.get('connectionType')?.errors?.['required'] && isSubmitted) {
+                    @if (machineForm.get('connectionType')?.errors?.['required'] &&
+                    (machineForm.get('connectionType')?.touched ||
+                    machineForm.get('connectionType')?.dirty)) {
                     <div class="invalid-feedback">Connection Type is required.</div>
                     }
-                    @if (machineForm.get('connectionType')?.errors?.['pattern'] && isSubmitted) {
+                    @if (machineForm.get('connectionType')?.errors?.['pattern'] &&
+                    (machineForm.get('connectionType')?.touched ||
+                    machineForm.get('connectionType')?.dirty)) {
                     <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
                     }
                 </div>
@@ -150,12 +162,16 @@
                     <label>Stator Lobby</label>
                     <!-- <input type="text" class="form-control" formControlName="statorLobbby"> -->
                     <input type="text" class="form-control" formControlName="statorLobby"
-                        [ngClass]="{ 'is-invalid': machineForm.get('statorLobby')?.invalid && isSubmitted }"
+                        [ngClass]="{ 'is-invalid': machineForm.get('statorLobby')?.invalid && (machineForm.get('statorLobby')?.touched || machineForm.get('statorLobby')?.dirty) }"
                         placeholder="Enter Stator Lobby " />
-                    @if (machineForm.get('statorLobby')?.errors?.['required'] && isSubmitted) {
+                    @if (machineForm.get('statorLobby')?.errors?.['required'] &&
+                    (machineForm.get('statorLobby')?.touched ||
+                    machineForm.get('statorLobby')?.dirty)) {
                     <div class="invalid-feedback">Stator Lobby is required.</div>
                     }
-                    @if (machineForm.get('statorLobby')?.errors?.['pattern'] && isSubmitted) {
+                    @if (machineForm.get('statorLobby')?.errors?.['pattern'] && (machineForm.get('statorLobby')?.touched
+                    ||
+                    machineForm.get('statorLobby')?.dirty)) {
                     <div class="invalid-feedback">Only string input allow and no multiple spaces.</div>
                     }
                 </div>

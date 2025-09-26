@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MachineMasterService } from '../services/machine-master-service';
 import { MachineMasterModel } from '../models/machine-master-model';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorsService } from '../../../services/validators.service.ts';
+import { AuthService } from '../../../cores/services/authService';
 
 @Component({
   selector: 'app-machine-master',
@@ -28,30 +30,34 @@ export class MachineMaster implements OnInit {
   constructor(
     private fb: FormBuilder,
     private machineService: MachineMasterService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _validationService: ValidatorsService,
+    private _authService: AuthService
+
+
   ) { }
 
   ngOnInit(): void {
     this.machineForm = this.fb.group({
       id: [0],
-      brandName: ['', [Validators.required,Validators.pattern(/^[A-Za-z]+(?: [A-Za-z]+)*$/)]],
-      hpKw: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      slot: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      rpm: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      pitch: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
-      gauge: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
-      alterGauge: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
+      brandName: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
+      hpKw: [, [Validators.required, Validators.pattern(this._validationService.onlyNumberPattern)]],
+      slot: [, [Validators.required, Validators.pattern(this._validationService.onlyNumberPattern)]],
+      rpm: [, [Validators.required, Validators.pattern(this._validationService.onlyNumberPattern)]],
+      pitch: ['', [Validators.required, Validators.pattern(this._validationService.alphanumericPatternWithSingleSpace)]],
+      gauge: ['', [Validators.required, Validators.pattern(this._validationService.alphanumericPatternWithSingleSpace)]],
+      alterGauge: ['', [Validators.required, Validators.pattern(this._validationService.alphanumericPatternWithSingleSpace)]],
       turn: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       coilMeasurement: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       windingType: [null, Validators.required],
-      connectionType: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/)]],
-      statorLobby: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z]+(?: [A-Za-z]+)*$/)]],
+      connectionType: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
+      statorLobby: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
       coilGroupWeight: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       totalWireWeight: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-      phaseSize: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/)]],
+      phaseSize: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
       amperes: [, [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       windingDate: [new Date().toISOString().substring(0, 10), Validators.required],
-      gpDc: ['', [Validators.required, Validators.pattern(/^(?!.*\s{2,})[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/)]],
+      gpDc: ['', [Validators.required, Validators.pattern(this._validationService.singleSpacePatternWithinWordAndNumber)]],
       isActive: [true],
     });
   }
@@ -72,7 +78,33 @@ export class MachineMaster implements OnInit {
     // debugger
     this.isSubmitted = true;
     if (this.machineForm.valid) {
-      this.machineMasterModel = { ...this.machineForm.value };
+      this.machineMasterModel = new MachineMasterModel();
+
+      this.machineMasterModel.id = this.machineForm.value.id || 0;
+      this.machineMasterModel.brandName = this.machineForm.value.brandName || '';
+      this.machineMasterModel.hpKw = this.machineForm.value.hpKw ?? null;
+      this.machineMasterModel.slot = this.machineForm.value.slot ?? null;
+      this.machineMasterModel.rpm = this.machineForm.value.rpm ?? null;
+      this.machineMasterModel.pitch = this.machineForm.value.pitch || '';
+      this.machineMasterModel.gauge = this.machineForm.value.gauge || '';
+      this.machineMasterModel.alterGauge = this.machineForm.value.alterGauge || '';
+      this.machineMasterModel.turn = this.machineForm.value.turn ?? null;
+      this.machineMasterModel.coilMeasurement = this.machineForm.value.coilMeasurement || '';
+      this.machineMasterModel.windingType = this.machineForm.value.windingType || 0;
+      this.machineMasterModel.connectionType = this.machineForm.value.connectionType || '';
+      this.machineMasterModel.statorLobby = this.machineForm.value.statorLobby || '';
+      this.machineMasterModel.coilGroupWeight = this.machineForm.value.coilGroupWeight ?? null;
+      this.machineMasterModel.totalWireWeight = this.machineForm.value.totalWireWeight ?? null;
+      this.machineMasterModel.phaseSize = this.machineForm.value.phaseSize || '';
+      this.machineMasterModel.amperes = this.machineForm.value.amperes ?? null;
+      this.machineMasterModel.windingDate = this.machineForm.value.windingDate || '';
+      this.machineMasterModel.gpDc = this.machineForm.value.gpDc || '';
+      this.machineMasterModel.createdBy = this._authService.currentUser.Id;
+      this.machineMasterModel.createdOn = new Date();
+      this.machineMasterModel.modifiedBy = '';
+      this.machineMasterModel.modifiedOn = undefined;
+      this.machineMasterModel.isActive = this.machineForm.value.isActive ?? true;
+
       //update
       if (this.isEditMode) {
         this.machineService.updateMachine(this.machineMasterModel).subscribe({
@@ -119,7 +151,7 @@ export class MachineMaster implements OnInit {
       alterGauge: '',
       turn: 0,
       coilMeasurement: 0,
-      windingType: 0,
+      windingType: null,
       connectionType: '',
       statorLobbby: '',
       coilGroupWeight: '',
@@ -136,10 +168,32 @@ export class MachineMaster implements OnInit {
 
   onEdit(machine: MachineMasterModel) {
     this.machineForm.patchValue({
-      ...machine,
+      id: machine.id || 0,
+      brandName: machine.brandName || '',
+      hpKw: machine.hpKw ?? null,
+      slot: machine.slot ?? null,
+      rpm: machine.rpm ?? null,
+      pitch: machine.pitch || '',
+      gauge: machine.gauge || '',
+      alterGauge: machine.alterGauge || '',
+      turn: machine.turn ?? null,
+      coilMeasurement: machine.coilMeasurement || '',
+      windingType: machine.windingType || 0,
+      connectionType: machine.connectionType || '',
+      statorLobby: machine.statorLobby || '',
+      coilGroupWeight: machine.coilGroupWeight ?? null,
+      totalWireWeight: machine.totalWireWeight ?? null,
+      phaseSize: machine.phaseSize || '',
+      amperes: machine.amperes ?? null,
       windingDate: machine.windingDate
         ? new Date(machine.windingDate).toISOString().substring(0, 10)
         : new Date().toISOString().substring(0, 10),
+      gpDc: machine.gpDc || '',
+      createdBy: machine.createdBy || '',
+      createdOn: machine.createdOn || null,
+      modifiedBy: machine.modifiedBy || '',
+      modifiedOn: machine.modifiedOn || null,
+      isActive: machine.isActive ?? true,
     });
     this.isEditMode = true;
   }
